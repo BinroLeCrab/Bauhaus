@@ -3,15 +3,20 @@ import Scene from "./Scene/Scene";
 import ViewingScene from "./Scene/ViewingScene";
 import { params } from "./constant/params";
 import sharedRender from "./Render";
+import SceneBass from "./Scene/SceneBass";
 
-// const viewingScene = new ViewingScene(params.sceneView.bgColor, params.sceneView.cubeColor);
-// viewingScene.init();
 
 sharedRender.init();
 sharedRender.startAnimationLoop();
 
-const scene = new Scene(params.sceneView.bgColor, params.sceneView.cubeColor);
-scene.init();
+const sceneBass = new SceneBass();
+sceneBass.init();
+
+const viewingScene = new ViewingScene();
+viewingScene.init();
+
+// const scene = new Scene(params.sceneView.bgColor, params.sceneView.cubeColor);
+// scene.init();
 
 // --
 let pane = new Pane();

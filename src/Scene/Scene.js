@@ -50,7 +50,6 @@ class Scene {
 	}
 
 	render() {
-        console.log("rendering scene");
 		sharedRender.renderer.render(this.scene, this.camera);
 	}
 

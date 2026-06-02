@@ -1,4 +1,5 @@
 import { params } from "../constant/params.js";
+import sharedRender from "../Render.js";
 import Scene from "./Scene.js";
 import * as THREE from "three";
 
@@ -13,9 +14,9 @@ class SceneBass extends Scene {
 
 	render() {
 		console.log("rendering bass");
-		this.renderer.setRenderTarget(this.renderTarget);
-		this.renderer.render(this.scene, this.camera);
-		// this.renderer.setRenderTarget(null);
+		sharedRender.renderer.setRenderTarget(sharedRender.renderBass);
+		sharedRender.renderer.render(this.scene, this.camera);
+		sharedRender.renderer.setRenderTarget(null);
 	}
 
 	tick = (time) => {
@@ -27,4 +28,4 @@ class SceneBass extends Scene {
 
 // const sceneBass = new SceneBass();
 // sceneBass.init();
-// export default sceneBass;
+export default SceneBass;

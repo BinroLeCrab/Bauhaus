@@ -1,13 +1,12 @@
 import Stats from "three/examples/jsm/libs/stats.module.js";
 import Scene from "./Scene.js";
 import * as THREE from "three";
-// import sceneBass from "./SceneBass.js";
 import { params } from "../constant/params.js";
 import sharedRender from "../Render.js";
 
 class ViewingScene extends Scene {
-	constructor(bgColor, cubeColor) {
-		super(bgColor, cubeColor);
+	constructor() {
+		super(params.sceneView.bgColor, params.sceneView.cubeColor);
 	}
 
 	addObject() {
