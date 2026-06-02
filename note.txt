@@ -1,0 +1,11 @@
+détecter le beat :
+- récupéré un objet à chaque frame avec les données audio
+- faire un visualizer de spectre
+- trouver le beat (avec le volume ?)
+
+faire la transition shaders avec des scène simple :
+- créer deux scènes
+- faire un shaders de rond en noir et blanc sur un plane qui fait tout l'écran
+- faire que à 0 les rond font 100% de leur taille et à 1 0%
+- faire une anim au bouton space
+- détecter la valeur à mettre entre 0 et 1 en fonction du spectre de l'audio
