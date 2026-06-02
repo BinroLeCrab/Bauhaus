@@ -19,33 +19,72 @@ viewingScene.init();
 // scene.init();
 
 // --
-let pane = new Pane();
+const pane = new Pane();
 
-pane.addBinding(params.sceneView, "bgColor", { view: "color" }).on("change", () => {
-	viewingScene.scene.background.set(params.sceneView.bgColor);
+const f1 = pane.addFolder({
+  title: 'Scene Bass Frequency',
 });
 
-pane.addBinding(params.sceneView, "cubeColor", { view: "color" }).on("change", () => {
-	viewingScene.cube.material.color.set(params.sceneView.cubeColor);
+f1.addBinding(params.sceneBass, "bgColor", { view: "color" }).on("change", () => {
+	sceneBass.scene.background.set(params.sceneBass.bgColor);
 });
 
-pane.addBinding(params.camera, "fov", { min: 1, max: 180 }).on("change", () => {
-	viewingScene.camera.fov = params.camera.fov;
-	viewingScene.camera.updateProjectionMatrix();
+f1.addBinding(params.sceneBass, "cubeColor", { view: "color" }).on("change", () => {
+	sceneBass.cube.material.color.set(params.sceneBass.cubeColor);
 });
 
-pane.addBinding(params.camera, "near", { min: 0.1, max: 100 }).on(
+const f2 = pane.addFolder({
+  title: 'Scene High Frequency',
+});
+
+f2.addBinding(params.sceneHigh, "bgColor", { view: "color" }).on("change", () => {
+	// sceneBass.scene.background.set(params.sceneHigh.bgColor);
+});
+
+f2.addBinding(params.sceneHigh, "cubeColor", { view: "color" }).on("change", () => {
+	// sceneBass.cube.material.color.set(params.sceneHigh.cubeColor);
+});
+
+const f3 = pane.addFolder({
+  title: 'Camera',
+});
+
+f3.addBinding(params.camera, "fov", { min: 1, max: 180 }).on("change", () => {
+	sceneBass.camera.fov = params.camera.fov;
+	sceneBass.camera.updateProjectionMatrix();
+});
+
+f3.addBinding(params.camera, "near", { min: 0.1, max: 100 }).on(
 	"change",
 	() => {
-		viewingScene.camera.near = params.camera.near;
-		viewingScene.camera.updateProjectionMatrix();
+		sceneBass.camera.near = params.camera.near;
+		sceneBass.camera.updateProjectionMatrix();
 	}
 );
 
-pane.addBinding(params.camera, "far", { min: 100, max: 2000 }).on(
+f3.addBinding(params.camera, "far", { min: 100, max: 2000 }).on(
 	"change",
 	() => {
-		viewingScene.camera.far = params.camera.far;
-		viewingScene.camera.updateProjectionMatrix();
+		sceneBass.camera.far = params.camera.far;
+		sceneBass.camera.updateProjectionMatrix();
 	}
+);
+
+f3.addBinding(params.camera.position, "x", { min: -10, max: 10 }).on(
+  "change",
+  () => {
+    sceneBass.camera.position.x = params.camera.position.x;
+  }
+);
+f3.addBinding(params.camera.position, "y", { min: -10, max: 10 }).on(
+  "change",
+  () => {
+    sceneBass.camera.position.y = params.camera.position.y;
+  }
+);
+f3.addBinding(params.camera.position, "z", { min: -10, max: 10 }).on(
+  "change",
+  () => {
+    sceneBass.camera.position.z = params.camera.position.z;
+  }
 );

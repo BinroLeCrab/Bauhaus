@@ -35,7 +35,11 @@ class Scene {
 			params.camera.far
 		);
 
-		this.camera.position.z = 5;
+		this.camera.position.set(
+            params.camera.position.x,
+            params.camera.position.y,
+            params.camera.position.z
+        );
 	}
 
 	setupControls() {
