@@ -1,8 +1,9 @@
 import Stats from "three/examples/jsm/libs/stats.module.js";
 import Scene from "./Scene.js";
 import * as THREE from "three";
-import sceneBass from "./SceneBass.js";
+// import sceneBass from "./SceneBass.js";
 import { params } from "../constant/params.js";
+import sharedRender from "../Render.js";
 
 class ViewingScene extends Scene {
 	constructor(bgColor, cubeColor) {
@@ -18,7 +19,7 @@ class ViewingScene extends Scene {
 		const geometry = new THREE.PlaneGeometry(this.width, this.height);
 
 		const material = new THREE.MeshBasicMaterial({
-			map: sceneBass.renderTarget.texture,
+			map: sharedRender.renderBass.texture,
 		});
 		const plane = new THREE.Mesh(geometry, material);
 		plane.position.z = 1;
@@ -45,7 +46,7 @@ class ViewingScene extends Scene {
 
 	init() {
 		this.setupStats();
-		this.renderer.setAnimationLoop(this.tick);
+		sharedRender.addScene(this);
 	}
 
 	tick = (time) => {

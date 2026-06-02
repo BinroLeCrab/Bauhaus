@@ -2,6 +2,7 @@ import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import Stats from "three/examples/jsm/libs/stats.module.js";
 import { params } from "../constant/params";
+import sharedRender from "../Render";
 
 class Scene {
 	constructor(bgColor = 0x000000, cubeColor = 0x00ff00) {
@@ -11,14 +12,14 @@ class Scene {
 		this.height = window.innerHeight;
 		this.setupScene();
 		this.setupCamera();
-		this.setupRenderer();
 		this.addObject();
 		this.setupControls();
-		window.addEventListener("resize", this.onResize);
+        window.addEventListener("resize", this.onResize);
 	}
 
 	init() {
-		this.renderer.setAnimationLoop(this.tick);
+        console.log("Initializing scene...");
+		sharedRender.addScene(this);
 	}
 
 	setupScene() {
@@ -38,13 +39,7 @@ class Scene {
 	}
 
 	setupControls() {
-		this.controls = new OrbitControls(this.camera, this.renderer.domElement);
-	}
-
-	setupRenderer() {
-		this.renderer = new THREE.WebGLRenderer();
-		this.renderer.setSize(this.width, this.height);
-		document.body.appendChild(this.renderer.domElement);
+		this.controls = new OrbitControls(this.camera, sharedRender.renderer.domElement);
 	}
 
 	addObject() {
@@ -55,7 +50,8 @@ class Scene {
 	}
 
 	render() {
-		this.renderer.render(this.scene, this.camera);
+        console.log("rendering scene");
+		sharedRender.renderer.render(this.scene, this.camera);
 	}
 
 	tick = (time) => {
@@ -66,7 +62,6 @@ class Scene {
 	onResize = () => {
 		this.width = window.innerWidth;
 		this.height = window.innerHeight;
-		this.renderer.setSize(this.width, this.height);
 		this.camera.aspect = this.width / this.height;
 		this.camera.updateProjectionMatrix();
 	};

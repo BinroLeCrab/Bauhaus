@@ -11,17 +11,11 @@ class SceneBass extends Scene {
 		);
 	}
 
-	setupRenderer() {
-		console.log("setting up renderer for bass");
-		this.renderer = new THREE.WebGLRenderer();
-		this.renderer.setSize(this.width, this.height);
-	}
-
 	render() {
 		console.log("rendering bass");
 		this.renderer.setRenderTarget(this.renderTarget);
 		this.renderer.render(this.scene, this.camera);
-		this.renderer.setRenderTarget(null);
+		// this.renderer.setRenderTarget(null);
 	}
 
 	tick = (time) => {
@@ -31,6 +25,6 @@ class SceneBass extends Scene {
 	};
 }
 
-const sceneBass = new SceneBass();
-sceneBass.init();
-export default sceneBass;
+// const sceneBass = new SceneBass();
+// sceneBass.init();
+// export default sceneBass;

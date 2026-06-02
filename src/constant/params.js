@@ -4,8 +4,8 @@ export const params = {
 		cubeColor: 0xe23d3d,
 	},
 	sceneBass: {
-		// bgColor: 0x0e0750,
-		bgColor: 0x00FF00,
+		bgColor: 0x0e0750,
+		// bgColor: 0x00FF00,
 		cubeColor: 0x3d44e2,
 	},
 	sceneHigh: {
