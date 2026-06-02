@@ -3,7 +3,9 @@ import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import Stats from "three/examples/jsm/libs/stats.module.js";
 
 class Scene {
-	constructor() {
+	constructor(bgColor = 0x000000, cubeColor = 0x00ff00) {
+		this.bgColor = bgColor;
+		this.cubeColor = cubeColor;
 		this.width = window.innerWidth;
 		this.height = window.innerHeight;
 		this.setupScene();
@@ -21,6 +23,7 @@ class Scene {
 
 	setupScene() {
 		this.scene = new THREE.Scene();
+        this.scene.background = new THREE.Color(this.bgColor);
 	}
 
 	setupCamera() {
@@ -46,9 +49,9 @@ class Scene {
 
 	addCube() {
 		const geometry = new THREE.BoxGeometry(1, 1, 1);
-		const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-		const cube = new THREE.Mesh(geometry, material);
-		this.scene.add(cube);
+		const material = new THREE.MeshBasicMaterial({ color: this.cubeColor });
+		this.cube = new THREE.Mesh(geometry, material);
+		this.scene.add(this.cube);
 	}
 
 	setupStats() {
