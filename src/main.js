@@ -4,6 +4,7 @@ import ViewingScene from "./Scene/ViewingScene";
 import { params } from "./constant/params";
 import sharedRender from "./Render";
 import SceneBass from "./Scene/SceneBass";
+import SceneHigh from "./Scene/SceneHigh";
 
 
 sharedRender.init();
@@ -11,6 +12,9 @@ sharedRender.startAnimationLoop();
 
 const sceneBass = new SceneBass();
 sceneBass.init();
+
+const sceneHigh = new SceneHigh();
+sceneHigh.init();
 
 const viewingScene = new ViewingScene();
 viewingScene.init();
@@ -38,11 +42,11 @@ const f2 = pane.addFolder({
 });
 
 f2.addBinding(params.sceneHigh, "bgColor", { view: "color" }).on("change", () => {
-	// sceneBass.scene.background.set(params.sceneHigh.bgColor);
+	sceneHigh.scene.background.set(params.sceneHigh.bgColor);
 });
 
 f2.addBinding(params.sceneHigh, "cubeColor", { view: "color" }).on("change", () => {
-	// sceneBass.cube.material.color.set(params.sceneHigh.cubeColor);
+	sceneHigh.cube.material.color.set(params.sceneHigh.cubeColor);
 });
 
 const f3 = pane.addFolder({
@@ -52,6 +56,8 @@ const f3 = pane.addFolder({
 f3.addBinding(params.camera, "fov", { min: 1, max: 180 }).on("change", () => {
 	sceneBass.camera.fov = params.camera.fov;
 	sceneBass.camera.updateProjectionMatrix();
+  sceneHigh.camera.fov = params.camera.fov;
+  sceneHigh.camera.updateProjectionMatrix();
 });
 
 f3.addBinding(params.camera, "near", { min: 0.1, max: 100 }).on(
@@ -59,6 +65,8 @@ f3.addBinding(params.camera, "near", { min: 0.1, max: 100 }).on(
 	() => {
 		sceneBass.camera.near = params.camera.near;
 		sceneBass.camera.updateProjectionMatrix();
+    sceneHigh.camera.near = params.camera.near;
+    sceneHigh.camera.updateProjectionMatrix();
 	}
 );
 
@@ -67,6 +75,8 @@ f3.addBinding(params.camera, "far", { min: 100, max: 2000 }).on(
 	() => {
 		sceneBass.camera.far = params.camera.far;
 		sceneBass.camera.updateProjectionMatrix();
+    sceneHigh.camera.far = params.camera.far;
+    sceneHigh.camera.updateProjectionMatrix();
 	}
 );
 
@@ -74,17 +84,20 @@ f3.addBinding(params.camera.position, "x", { min: -10, max: 10 }).on(
   "change",
   () => {
     sceneBass.camera.position.x = params.camera.position.x;
+    sceneHigh.camera.position.x = params.camera.position.x;
   }
 );
 f3.addBinding(params.camera.position, "y", { min: -10, max: 10 }).on(
   "change",
   () => {
     sceneBass.camera.position.y = params.camera.position.y;
+    sceneHigh.camera.position.y = params.camera.position.y;
   }
 );
 f3.addBinding(params.camera.position, "z", { min: -10, max: 10 }).on(
   "change",
   () => {
     sceneBass.camera.position.z = params.camera.position.z;
+    sceneHigh.camera.position.z = params.camera.position.z;
   }
 );
