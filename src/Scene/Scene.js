@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import Stats from "three/examples/jsm/libs/stats.module.js";
+import { params } from "../constant/params";
 
 class Scene {
 	constructor(bgColor = 0x000000, cubeColor = 0x00ff00) {
@@ -11,13 +12,12 @@ class Scene {
 		this.setupScene();
 		this.setupCamera();
 		this.setupRenderer();
-		this.addCube();
+		this.addObject();
 		this.setupControls();
 		window.addEventListener("resize", this.onResize);
 	}
 
 	init() {
-		this.setupStats();
 		this.renderer.setAnimationLoop(this.tick);
 	}
 
@@ -28,10 +28,10 @@ class Scene {
 
 	setupCamera() {
 		this.camera = new THREE.PerspectiveCamera(
-			75,
+			params.camera.fov,
 			this.width / this.height,
-			0.1,
-			1000
+			params.camera.near,
+			params.camera.far
 		);
 
 		this.camera.position.z = 5;
@@ -47,16 +47,11 @@ class Scene {
 		document.body.appendChild(this.renderer.domElement);
 	}
 
-	addCube() {
+	addObject() {
 		const geometry = new THREE.BoxGeometry(1, 1, 1);
 		const material = new THREE.MeshBasicMaterial({ color: this.cubeColor });
 		this.cube = new THREE.Mesh(geometry, material);
 		this.scene.add(this.cube);
-	}
-
-	setupStats() {
-		this.stats = new Stats();
-		document.body.appendChild(this.stats.dom);
 	}
 
 	render() {
@@ -64,9 +59,8 @@ class Scene {
 	}
 
 	tick = (time) => {
-		this.stats.begin();
+        this.cube.rotation.x = time / 2000;
 		this.render();
-		this.stats.end();
 	};
 
 	onResize = () => {
