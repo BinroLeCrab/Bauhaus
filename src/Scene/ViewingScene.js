@@ -59,6 +59,10 @@ class ViewingScene extends Scene {
 		document.body.appendChild(this.stats.dom);
 	}
 
+    setupControls() {
+		this.controls = null;
+	}
+
 	init() {
 		this.setupStats();
 		sharedRender.addScene(this);

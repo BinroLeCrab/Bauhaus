@@ -8,14 +8,16 @@ void main()
 {
 
     vec4 mask;
+    vec4 black = vec4(0.0, 0.0, 0.0, 1.0);
+    vec4 white = vec4(1.0, 1.0, 1.0, 1.0);
     float revertFrequency = 1.0 - uAudioFrequency; // Inverse de la fréquence pour que les basses soient à gauche et les aigus à droite
     if (vUv.x < revertFrequency) {
-        mask = vec4(0.0, 0.0, 0.0, 1.0); // Noir
+        mask = black; // Noir
     } else {
-        mask = vec4(1.0, 1.0, 1.0, 1.0); // Blanc
+        mask = white; // Blanc
     }
 
-    if (mask.r == 0.0) {
+    if (mask == black) {
         gl_FragColor = texture2D(uTextureBass, vUv);
     } else {
         gl_FragColor = texture2D(uTextureHigh, vUv);
