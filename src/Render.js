@@ -15,7 +15,7 @@ class Render {
 	setupRenderer() {
 		this.renderer = new THREE.WebGLRenderer({
 			antialias: true,
-			pixelRatio: window.devicePixelRatio, // Meilleure qualité sur écrans Retina
+			pixelRatio: window.devicePixelRatio * 2, // Meilleure qualité sur écrans Retina
 			alpha: true, // Fond transparent
 			preserveDrawingBuffer: false, // Performance
 		});
