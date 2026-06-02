@@ -4,13 +4,12 @@ export const params = {
 		cubeColor: 0xe23d3d,
 	},
 	sceneBass: {
-		bgColor: 0x0e0750,
-		// bgColor: 0x00FF00,
-		cubeColor: 0x3d44e2,
+		bgColor: 0x352F31,
+		cubeColor: 0x068CFE,
 	},
 	sceneHigh: {
-		bgColor: 0xf4f7f5,
-		cubeColor: 0xfd4a2d,
+		bgColor: 0xFDEAC5,
+		cubeColor: 0xEF3942,
 	},
 
 	camera: {
@@ -23,4 +22,8 @@ export const params = {
             z: 5,
         },
 	},
+
+    audio: {
+        frequency: 0.5,
+    },
 };

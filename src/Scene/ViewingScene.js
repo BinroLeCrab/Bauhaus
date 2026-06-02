@@ -18,13 +18,12 @@ class ViewingScene extends Scene {
 		// const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
 		// this.scene.add(ambientLight);
 
-		const shadersMaterial = new THREE.ShaderMaterial({
+		this.shadersMaterial = new THREE.ShaderMaterial({
             uniforms: {
                 // uMap: new THREE.Uniform(),
                 // uSize: new THREE.Uniform(2),
                 // uTime : new THREE.Uniform(0),
-                // uAudioFrequency: new THREE.Uniform(0),
-                // uFreqAigu: new THREE.Uniform(0),
+                uAudioFrequency: new THREE.Uniform(0),
                 uTextureBass: { value: sharedRender.renderBass.texture },
                 uTextureHigh: { value: sharedRender.renderHigh.texture },
             },
@@ -37,7 +36,7 @@ class ViewingScene extends Scene {
 		const material = new THREE.MeshBasicMaterial({
 			map: sharedRender.renderBass.texture,
 		});
-		const plane = new THREE.Mesh(geometry, shadersMaterial);
+		const plane = new THREE.Mesh(geometry, this.shadersMaterial);
 		plane.position.z = 1;
 		this.scene.add(plane);
 	}
@@ -67,7 +66,7 @@ class ViewingScene extends Scene {
 
 	tick = (time) => {
 		this.stats.begin();
-
+        this.shadersMaterial.uniforms.uAudioFrequency.value = params.audio.frequency;
 		this.render();
 		this.stats.end();
 	};

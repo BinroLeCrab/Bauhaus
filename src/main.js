@@ -101,3 +101,9 @@ f3.addBinding(params.camera.position, "z", { min: -10, max: 10 }).on(
     sceneHigh.camera.position.z = params.camera.position.z;
   }
 );
+
+const f4 = pane.addFolder({
+  title: 'Audio',
+});
+
+f4.addBinding(params.audio, "frequency", { min: 0, max: 1 });
