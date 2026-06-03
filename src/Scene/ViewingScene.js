@@ -89,14 +89,14 @@ class ViewingScene extends Scene {
 		this.height = window.innerHeight;
 		this.camera.aspect = this.width / this.height;
 		this.camera.updateProjectionMatrix();
-		this.shadersMaterial.uniforms.uAspectRatio.value =
-			this.width / this.height;
+		this.shadersMaterial.uniforms.uAspectRatio.value = this.width / this.height;
 	};
 
 	tick(time) {
 		this.stats.begin();
 		if (audioAnalyzer.useAudio) {
 			this.shadersMaterial.uniforms.uAudioFrequency.value = audioAnalyzer.getFrequencyBalance();
+			this.shadersMaterial.uniforms.uAspectRatio.value = this.width / this.height;
 		} else {
 			this.shadersMaterial.uniforms.uAudioFrequency.value =
 				params.audio.frequency;

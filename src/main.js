@@ -132,6 +132,7 @@ f4.addBinding(params.audio, "frequency", { min: 0, max: 1 });
 f4.addBinding(params.audio, "cutNumber", { min: 1, max: 255, step: 1 });
 f4.addBinding(params.audio, "highBoost", { min: 0, max: 5, step: 0.25 });
 f4.addBinding(params.audio, "bassBoost", { min: 0, max: 5, step: 0.25 });
+f4.addBinding(audioAnalyzer, "balanceThreshold", { min: 0, max: 1, step: 0.01 });
 f4.addBinding(audioAnalyzer, "useAudio");
 
 const f5 = tab.pages[3].addFolder({

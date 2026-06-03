@@ -2,16 +2,29 @@ import Analyzer from "../sounds/Analyzer";
 import { params } from "./constant/params";
 
 class AudioAnalyzer {
-	constructor() {
-    } 
-    
-    init() {
-		this.useAudio = false;
+	constructor() {}
+
+	init() {
+		this.useAudio = true;
 		this.audio = new Analyzer();
 		this.volume = params.audio.frequency;
 
 		this.frequencyData = [];
 		this.frequencyBalance = params.audio.frequency;
+
+		this.balanceMode = "bass"; // "bass", "high", or "balanced"
+		this.balancePass = {
+			bass: {
+				min: 0,
+				max: 0.20,
+			},
+			high: {
+				min: 0.80,
+				max: 1,
+			},
+		};
+
+		this.balanceThreshold = 0.4; // Threshold to determine if high frequencies are stronger than bass
 
 		this.audio.onAudio((a) => {
 			this.volume = a.volumeSmooth;
@@ -19,7 +32,7 @@ class AudioAnalyzer {
 		});
 	}
 
-    getFrequencyBalance() {
+	getFrequencyBalance() {
 		if (this.frequencyData) {
 			const bassFrequency = this.frequencyData.slice(
 				0,
@@ -38,10 +51,39 @@ class AudioAnalyzer {
 					highFrequency.length) *
 				params.audio.highBoost;
 
-			if (highAverage > bassAverage) {
-				this.frequencyBalance = bassAverage / highAverage;
+			// console.log("bassAverage", bassAverage, "highAverage", highAverage);
+
+			const balance = highAverage / bassAverage;
+
+			// console.log("Balance:", balance.toFixed(2));
+
+			if (balance > this.balanceThreshold) {
+				// console.log("--- High is stronger than Bass");
+				this.balanceMode = "high";
+
+				const finalNumber =
+					this.balancePass.high.min +
+					((balance - this.balanceThreshold) /
+						(1 - this.balanceThreshold)) *
+						(this.balancePass.high.max - this.balancePass.high.min);
+
+				if (finalNumber < this.balancePass.high.min) {
+					console.log("Final Number:", finalNumber.toFixed(2));
+				}
+
+				this.frequencyBalance = finalNumber;
+			}
+			if (balance == this.balanceThreshold) {
+				// console.log("Bass and High are balanced");
+				this.balanceMode = "balanced";
+				// this.frequencyBalance = balance;
 			} else {
-				this.frequencyBalance = highAverage / bassAverage;
+				// console.log("--- Bass is stronger than High");
+				this.balanceMode = "bass";
+				const finalNumber =
+					(balance / this.balanceThreshold) *
+					this.balancePass.bass.max;
+				this.frequencyBalance = finalNumber;
 			}
 
 			// console.log(
@@ -56,10 +98,10 @@ class AudioAnalyzer {
 			// this.shadersMaterial.uniforms.uAudioFrequency.value =
 			// 	this.frequencyBalance;
 
-            return this.frequencyBalance;
+			return this.frequencyBalance;
 		} else {
-            return params.audio.frequency;
-        }
+			return params.audio.frequency;
+		}
 	}
 }
 
