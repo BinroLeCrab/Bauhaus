@@ -3,8 +3,8 @@ import Scene from "./Scene.js";
 import * as THREE from "three";
 import { params } from "../constant/params.js";
 import sharedRender from "../Render.js";
-import vertexShader from '../GLSL/Transition/vertexShader.glsl?raw';
-import fragmentShader from '../GLSL/Transition/fragmentShader.glsl?raw';
+import vertexShader from "../GLSL/Transition/vertexShader.glsl?raw";
+import fragmentShader from "../GLSL/Transition/fragmentShader.glsl?raw";
 import Analyzer from "../../sounds/Analyzer.js";
 
 class ViewingScene extends Scene {
@@ -13,12 +13,12 @@ class ViewingScene extends Scene {
 	}
 
 	setupAudio() {
-		this.useAudio = true;
+		this.useAudio = false;
 		this.audio = new Analyzer();
 		this.volume = params.audio.frequency;
 		this.audio.onAudio((a) => {
 			this.volume = a.volumeSmooth;
-		})
+		});
 	}
 
 	addObject() {
@@ -29,18 +29,19 @@ class ViewingScene extends Scene {
 		// this.scene.add(ambientLight);
 
 		this.shadersMaterial = new THREE.ShaderMaterial({
-            uniforms: {
-                // uMap: new THREE.Uniform(),
-                // uSize: new THREE.Uniform(2),
-                // uTime : new THREE.Uniform(0),
-                uAudioFrequency: new THREE.Uniform(0),
-                uTextureBass: { value: sharedRender.renderBass.texture },
-                uTextureHigh: { value: sharedRender.renderHigh.texture },
-            },
-            // side: THREE.DoubleSide,
-            fragmentShader: fragmentShader,
-            vertexShader: vertexShader,
-        });
+			uniforms: {
+				// uMap: new THREE.Uniform(),
+				// uSize: new THREE.Uniform(2),
+				// uTime : new THREE.Uniform(0),
+				uAudioFrequency: new THREE.Uniform(0),
+				uTextureBass: { value: sharedRender.renderBass.texture },
+				uTextureHigh: { value: sharedRender.renderHigh.texture },
+				uAspectRatio: new THREE.Uniform(this.width / this.height),
+			},
+			// side: THREE.DoubleSide,
+			fragmentShader: fragmentShader,
+			vertexShader: vertexShader,
+		});
 
 		const geometry = new THREE.PlaneGeometry(this.width, this.height);
 		const material = new THREE.MeshBasicMaterial({
@@ -69,7 +70,7 @@ class ViewingScene extends Scene {
 		document.body.appendChild(this.stats.dom);
 	}
 
-    setupControls() {
+	setupControls() {
 		this.controls = null;
 	}
 
@@ -79,12 +80,21 @@ class ViewingScene extends Scene {
 		sharedRender.addScene(this);
 	}
 
+	onResize = () => {
+		this.width = window.innerWidth;
+		this.height = window.innerHeight;
+		this.camera.aspect = this.width / this.height;
+		this.camera.updateProjectionMatrix();
+		this.shadersMaterial.uniforms.uAspectRatio.value = this.width / this.height;
+	};
+
 	tick = (time) => {
 		this.stats.begin();
 		if (this.useAudio) {
 			this.shadersMaterial.uniforms.uAudioFrequency.value = this.volume;
 		} else {
-			this.shadersMaterial.uniforms.uAudioFrequency.value = params.audio.frequency;
+			this.shadersMaterial.uniforms.uAudioFrequency.value =
+				params.audio.frequency;
 		}
 		this.render();
 		this.stats.end();

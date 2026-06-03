@@ -13,7 +13,7 @@ class SceneHigh extends Scene {
 	}
 
 	render() {
-		console.log("rendering high");
+		// console.log("rendering high");
 		sharedRender.renderer.setRenderTarget(sharedRender.renderHigh);
 		sharedRender.renderer.render(this.scene, this.camera);
 		sharedRender.renderer.setRenderTarget(null);
@@ -22,7 +22,7 @@ class SceneHigh extends Scene {
 	tick = (time) => {
 		this.cube.rotation.x = time / 2000;
 		this.render();
-		console.log("SceneHigh rendering..."); // Pour voir si ça rend
+		// console.log("SceneHigh rendering..."); // Pour voir si ça rend
 	};
 }
 

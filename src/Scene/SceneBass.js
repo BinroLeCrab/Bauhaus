@@ -13,7 +13,7 @@ class SceneBass extends Scene {
 	}
 
 	render() {
-		console.log("rendering bass");
+		// console.log("rendering bass");
 		sharedRender.renderer.setRenderTarget(sharedRender.renderBass);
 		sharedRender.renderer.render(this.scene, this.camera);
 		sharedRender.renderer.setRenderTarget(null);
@@ -22,7 +22,7 @@ class SceneBass extends Scene {
 	tick = (time) => {
 		this.cube.rotation.x = time / 2000;
 		this.render();
-		console.log("SceneBass rendering..."); // Pour voir si ça rend
+		// console.log("SceneBass rendering..."); // Pour voir si ça rend
 	};
 }
 
