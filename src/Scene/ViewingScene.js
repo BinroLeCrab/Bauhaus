@@ -6,6 +6,7 @@ import sharedRender from "../Render.js";
 import vertexShader from "../GLSL/Transition/vertexShader.glsl?raw";
 import fragmentShader from "../GLSL/Transition/fragmentShader.glsl?raw";
 import Analyzer from "../../sounds/Analyzer.js";
+import { HalftonePass, RenderPass } from "three/examples/jsm/Addons.js";
 
 class ViewingScene extends Scene {
 	constructor() {
@@ -70,6 +71,29 @@ class ViewingScene extends Scene {
 		this.camera.position.z = 5;
 	}
 
+	setupPostProcessing() {
+		const renderPass = new RenderPass(this.scene, this.camera);
+		const params = {
+			shape: 1,
+			radius: 4,
+			rotateR: Math.PI / 12,
+			rotateB: (Math.PI / 12) * 2,
+			rotateG: (Math.PI / 12) * 3,
+			scatter: 0,
+			blending: 1,
+			blendingMode: 1,
+			greyscale: false,
+			disable: false,
+		};
+		this.halftonePass = new HalftonePass(params);
+		sharedRender.composer.addPass(renderPass);
+		sharedRender.composer.addPass(this.halftonePass);
+	}
+
+	render() {
+		sharedRender.composer.render();
+	}
+
 	setupStats() {
 		this.stats = new Stats();
 		document.body.appendChild(this.stats.dom);
@@ -82,6 +106,7 @@ class ViewingScene extends Scene {
 	init() {
 		this.setupStats();
 		this.setupAudio();
+		this.setupPostProcessing();
 		sharedRender.addScene(this);
 	}
 
@@ -90,26 +115,46 @@ class ViewingScene extends Scene {
 		this.height = window.innerHeight;
 		this.camera.aspect = this.width / this.height;
 		this.camera.updateProjectionMatrix();
-		this.shadersMaterial.uniforms.uAspectRatio.value = this.width / this.height;
+		this.shadersMaterial.uniforms.uAspectRatio.value =
+			this.width / this.height;
 	};
 
 	calculFrequencyValue() {
 		if (this.frequencyData) {
-			const bassFrequency = this.frequencyData.slice(0, params.audio.cutNumber);
-			const highFrequency = this.frequencyData.slice(params.audio.cutNumber);
+			const bassFrequency = this.frequencyData.slice(
+				0,
+				params.audio.cutNumber
+			);
+			const highFrequency = this.frequencyData.slice(
+				params.audio.cutNumber
+			);
 
-			const bassAverage = (bassFrequency.reduce((a, b) => a + b, 0) / bassFrequency.length) * params.audio.bassBoost;
-			const highAverage = (highFrequency.reduce((a, b) => a + b, 0) / highFrequency.length) * params.audio.highBoost;
+			const bassAverage =
+				(bassFrequency.reduce((a, b) => a + b, 0) /
+					bassFrequency.length) *
+				params.audio.bassBoost;
+			const highAverage =
+				(highFrequency.reduce((a, b) => a + b, 0) /
+					highFrequency.length) *
+				params.audio.highBoost;
 
 			if (highAverage > bassAverage) {
-				this.frequencyBalance = bassAverage/highAverage;
+				this.frequencyBalance = bassAverage / highAverage;
 			} else {
-				this.frequencyBalance = highAverage/bassAverage;
+				this.frequencyBalance = highAverage / bassAverage;
 			}
 
-			console.log("Bass Average:", bassAverage.toFixed(2), "High Average:", highAverage.toFixed(2), "Frequency Balance:", this.frequencyBalance.toFixed(2));
+			console.log(
+				"Bass Average:",
+				bassAverage.toFixed(2),
+				"High Average:",
+				highAverage.toFixed(2),
+				"Frequency Balance:",
+				this.frequencyBalance.toFixed(2)
+			);
 
-			this.shadersMaterial.uniforms.uAudioFrequency.value = this.frequencyBalance;
+			this.shadersMaterial.uniforms.uAudioFrequency.value =
+				this.frequencyBalance;
 		}
 	}
 

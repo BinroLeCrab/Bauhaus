@@ -25,7 +25,14 @@ viewingScene.init();
 // --
 const pane = new Pane();
 
-const f1 = pane.addFolder({
+const tab = pane.addTab({
+  pages: [
+    {title: 'Parameters'},
+    {title: 'Post-Processing'},
+  ],
+});
+
+const f1 = tab.pages[0].addFolder({
   title: 'Scene Bass Frequency',
 });
 
@@ -37,7 +44,7 @@ f1.addBinding(params.sceneBass, "cubeColor", { view: "color" }).on("change", () 
 	sceneBass.cube.material.color.set(params.sceneBass.cubeColor);
 });
 
-const f2 = pane.addFolder({
+const f2 = tab.pages[0].addFolder({
   title: 'Scene High Frequency',
 });
 
@@ -49,7 +56,7 @@ f2.addBinding(params.sceneHigh, "cubeColor", { view: "color" }).on("change", () 
 	sceneHigh.cube.material.color.set(params.sceneHigh.cubeColor);
 });
 
-const f3 = pane.addFolder({
+const f3 = tab.pages[0].addFolder({
   title: 'Camera',
 });
 
@@ -102,7 +109,7 @@ f3.addBinding(params.camera.position, "z", { min: -10, max: 10 }).on(
   }
 );
 
-const f4 = pane.addFolder({
+const f4 = tab.pages[0].addFolder({
   title: 'Audio',
 });
 
@@ -111,3 +118,64 @@ f4.addBinding(params.audio, "cutNumber", { min: 1, max: 255, step: 1 });
 f4.addBinding(params.audio, "highBoost", { min: 0, max: 5, step: 0.25 });
 f4.addBinding(params.audio, "bassBoost", { min: 0, max: 5, step: 0.25 });
 f4.addBinding(viewingScene, "useAudio");
+
+const f5 = tab.pages[1].addFolder({
+  title: 'Halftone',
+});
+
+const halftoneParams = {
+  shape: 1,
+  radius: 4,
+  rotateR: Math.PI / 12,
+  rotateG: (Math.PI / 12) * 2,
+  rotateB: (Math.PI / 12) * 3,
+  scatter: 0,
+  blending: 1,
+  blendingMode: 1,
+  greyscale: false,
+  disable: false,
+};
+
+f5.addBinding(halftoneParams, 'shape', {
+  options: { 'Dot': 1, 'Ellipse': 2, 'Line': 3, 'Square': 4, 'Diamond': 5 }
+}).on('change', (ev) => {
+  viewingScene.halftonePass.uniforms.shape.value = ev.value;
+});
+
+f5.addBinding(halftoneParams, 'radius', { min: 1, max: 25 }).on('change', (ev) => {
+  viewingScene.halftonePass.uniforms.radius.value = ev.value;
+});
+
+f5.addBinding(halftoneParams, 'rotateR', { min: 0, max: Math.PI }).on('change', (ev) => {
+  viewingScene.halftonePass.uniforms.rotateR.value = ev.value;
+});
+
+f5.addBinding(halftoneParams, 'rotateG', { min: 0, max: Math.PI }).on('change', (ev) => {
+  viewingScene.halftonePass.uniforms.rotateG.value = ev.value;
+});
+
+f5.addBinding(halftoneParams, 'rotateB', { min: 0, max: Math.PI }).on('change', (ev) => {
+  viewingScene.halftonePass.uniforms.rotateB.value = ev.value;
+});
+
+f5.addBinding(halftoneParams, 'scatter', { min: 0, max: 1, step: 0.01 }).on('change', (ev) => {
+  viewingScene.halftonePass.uniforms.scatter.value = ev.value;
+});
+
+f5.addBinding(halftoneParams, 'greyscale').on('change', (ev) => {
+  viewingScene.halftonePass.uniforms.greyscale.value = ev.value;
+});
+
+f5.addBinding(halftoneParams, 'blending', { min: 0, max: 1, step: 0.01 }).on('change', (ev) => {
+  viewingScene.halftonePass.uniforms.blending.value = ev.value;
+});
+
+f5.addBinding(halftoneParams, 'blendingMode', {
+  options: { 'Linear': 1, 'Multiply': 2, 'Add': 3, 'Lighter': 4, 'Darker': 5 }
+}).on('change', (ev) => {
+  viewingScene.halftonePass.uniforms.blendingMode.value = ev.value;
+});
+
+f5.addBinding(halftoneParams, 'disable').on('change', (ev) => {
+  viewingScene.halftonePass.uniforms.disable.value = ev.value;
+});

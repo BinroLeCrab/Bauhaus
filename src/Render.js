@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer.js";
 
 class Render {
 	constructor() {}
@@ -7,6 +8,7 @@ class Render {
 		this.width = window.innerWidth;
 		this.height = window.innerHeight;
 		this.setupRenderer();
+		this.setupComposer();
 		this.setupRenderTarget();
 		this.sceneToRender = [];
 		window.addEventListener("resize", this.onResize);
@@ -19,8 +21,13 @@ class Render {
 			alpha: true, // Fond transparent
 			preserveDrawingBuffer: false, // Performance
 		});
+		this.renderer.outputColorSpace = THREE.SRGBColorSpace;
 		this.renderer.setSize(this.width, this.height);
 		document.body.appendChild(this.renderer.domElement);
+	}
+
+	setupComposer() {
+		this.composer = new EffectComposer(this.renderer);
 	}
 
 	setupRenderTarget() {
