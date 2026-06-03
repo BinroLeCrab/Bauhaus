@@ -13,6 +13,7 @@ class ViewingScene extends Scene {
 	}
 
 	setupAudio() {
+		this.useAudio = true;
 		this.audio = new Analyzer();
 		this.volume = params.audio.frequency;
 		this.audio.onAudio((a) => {
@@ -80,7 +81,11 @@ class ViewingScene extends Scene {
 
 	tick = (time) => {
 		this.stats.begin();
-        this.shadersMaterial.uniforms.uAudioFrequency.value = this.volume;
+		if (this.useAudio) {
+			this.shadersMaterial.uniforms.uAudioFrequency.value = this.volume;
+		} else {
+			this.shadersMaterial.uniforms.uAudioFrequency.value = params.audio.frequency;
+		}
 		this.render();
 		this.stats.end();
 	};

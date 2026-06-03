@@ -107,3 +107,4 @@ const f4 = pane.addFolder({
 });
 
 f4.addBinding(params.audio, "frequency", { min: 0, max: 1 });
+f4.addBinding(viewingScene, "useAudio");
