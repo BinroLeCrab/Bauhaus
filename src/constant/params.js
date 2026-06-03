@@ -25,5 +25,8 @@ export const params = {
 
     audio: {
         frequency: 0.5,
+		cutNumber: 32,
+		bassBoost: 1,
+		highBoost: 1.25,
     },
 };
