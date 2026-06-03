@@ -14,7 +14,7 @@ class ViewingScene extends Scene {
 	}
 
 	setupAudio() {
-		this.useAudio = false;
+		this.useAudio = true;
 		this.audio = new Analyzer();
 		this.volume = params.audio.frequency;
 
@@ -73,19 +73,8 @@ class ViewingScene extends Scene {
 
 	setupPostProcessing() {
 		const renderPass = new RenderPass(this.scene, this.camera);
-		const params = {
-			shape: 1,
-			radius: 4,
-			rotateR: Math.PI / 12,
-			rotateB: (Math.PI / 12) * 2,
-			rotateG: (Math.PI / 12) * 3,
-			scatter: 0,
-			blending: 1,
-			blendingMode: 1,
-			greyscale: false,
-			disable: false,
-		};
-		this.halftonePass = new HalftonePass(params);
+		
+		this.halftonePass = new HalftonePass(params.halftone);
 		sharedRender.composer.addPass(renderPass);
 		sharedRender.composer.addPass(this.halftonePass);
 	}

@@ -123,59 +123,46 @@ const f5 = tab.pages[1].addFolder({
   title: 'Halftone',
 });
 
-const halftoneParams = {
-  shape: 1,
-  radius: 4,
-  rotateR: Math.PI / 12,
-  rotateG: (Math.PI / 12) * 2,
-  rotateB: (Math.PI / 12) * 3,
-  scatter: 0,
-  blending: 1,
-  blendingMode: 1,
-  greyscale: false,
-  disable: false,
-};
-
-f5.addBinding(halftoneParams, 'shape', {
+f5.addBinding(params.halftone, 'shape', {
   options: { 'Dot': 1, 'Ellipse': 2, 'Line': 3, 'Square': 4, 'Diamond': 5 }
 }).on('change', (ev) => {
   viewingScene.halftonePass.uniforms.shape.value = ev.value;
 });
 
-f5.addBinding(halftoneParams, 'radius', { min: 1, max: 25 }).on('change', (ev) => {
+f5.addBinding(params.halftone, 'radius', { min: 1, max: 25 }).on('change', (ev) => {
   viewingScene.halftonePass.uniforms.radius.value = ev.value;
 });
 
-f5.addBinding(halftoneParams, 'rotateR', { min: 0, max: Math.PI }).on('change', (ev) => {
+f5.addBinding(params.halftone, 'rotateR', { min: 0, max: Math.PI }).on('change', (ev) => {
   viewingScene.halftonePass.uniforms.rotateR.value = ev.value;
 });
 
-f5.addBinding(halftoneParams, 'rotateG', { min: 0, max: Math.PI }).on('change', (ev) => {
+f5.addBinding(params.halftone, 'rotateG', { min: 0, max: Math.PI }).on('change', (ev) => {
   viewingScene.halftonePass.uniforms.rotateG.value = ev.value;
 });
 
-f5.addBinding(halftoneParams, 'rotateB', { min: 0, max: Math.PI }).on('change', (ev) => {
+f5.addBinding(params.halftone, 'rotateB', { min: 0, max: Math.PI }).on('change', (ev) => {
   viewingScene.halftonePass.uniforms.rotateB.value = ev.value;
 });
 
-f5.addBinding(halftoneParams, 'scatter', { min: 0, max: 1, step: 0.01 }).on('change', (ev) => {
+f5.addBinding(params.halftone, 'scatter', { min: 0, max: 1, step: 0.01 }).on('change', (ev) => {
   viewingScene.halftonePass.uniforms.scatter.value = ev.value;
 });
 
-f5.addBinding(halftoneParams, 'greyscale').on('change', (ev) => {
+f5.addBinding(params.halftone, 'greyscale').on('change', (ev) => {
   viewingScene.halftonePass.uniforms.greyscale.value = ev.value;
 });
 
-f5.addBinding(halftoneParams, 'blending', { min: 0, max: 1, step: 0.01 }).on('change', (ev) => {
+f5.addBinding(params.halftone, 'blending', { min: 0, max: 1, step: 0.01 }).on('change', (ev) => {
   viewingScene.halftonePass.uniforms.blending.value = ev.value;
 });
 
-f5.addBinding(halftoneParams, 'blendingMode', {
+f5.addBinding(params.halftone, 'blendingMode', {
   options: { 'Linear': 1, 'Multiply': 2, 'Add': 3, 'Lighter': 4, 'Darker': 5 }
 }).on('change', (ev) => {
   viewingScene.halftonePass.uniforms.blendingMode.value = ev.value;
 });
 
-f5.addBinding(halftoneParams, 'disable').on('change', (ev) => {
+f5.addBinding(params.halftone, 'disable').on('change', (ev) => {
   viewingScene.halftonePass.uniforms.disable.value = ev.value;
 });
