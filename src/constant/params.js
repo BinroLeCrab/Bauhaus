@@ -4,7 +4,7 @@ export const params = {
 		cubeColor: 0xe23d3d,
 	},
 	sceneBass: {
-		bgColor: 0x352f31,
+		bgColor: 0xFFFFFF,
 		cubeColor: 0x068cfe,
 	},
 	sceneHigh: {
@@ -18,17 +18,21 @@ export const params = {
 		far: 1000,
 		position: {
 			x: 0,
-			y: 0,
+			y: 3,
 			z: 5,
+		},
+		lookAt: {
+			x: 0,
+			y: 3,
+			z: 0,
 		},
 	},
 	audio: {
-		frequency: 0.5,
+		frequency: 0,
 		cutNumber: 32,
 		bassBoost: 1,
 		highBoost: 1.25,
 	},
-
 	halftone: {
 		shape: 1,
 		radius: 4,
@@ -41,4 +45,20 @@ export const params = {
 		greyscale: false,
 		disable: true,
 	},
+	object: {
+		monolith: {
+			animation: false,
+			position: {
+				x: 0,
+				y: 0,
+				z: -0.5,
+			},
+			size: {
+				width: 1.75,
+				height: 4,
+				depth: 1.75,
+			},
+			scaleVolume: 0.5,
+		}
+	}
 };

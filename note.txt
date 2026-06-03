@@ -9,3 +9,30 @@ faire la transition shaders avec des scène simple :
 - faire que à 0 les rond font 100% de leur taille et à 1 0%
 - faire une anim au bouton space
 - détecter la valeur à mettre entre 0 et 1 en fonction du spectre de l'audio
+
+
+pour le calcul 2 range :
+
+(une valeur de coupe : 32 par defaut)
+
+- 32 premier bit pour la basse > B
+- (32 -> 256) 224 pour les haute fréquence > H + Boost High
+
+adition des valeur de chaque frequence / nb de frequence > un chifre entre 0 et 1
+
+max (B => 0.8, H => 0.3) 
+
+si B > H 
+H/B,
+si H>B 
+B/H
+
+--
+
+faire évoluer en 0/0.32 et en 0.68/1
+
+si la balance s'inverse alors transi entre les deux
+
+--
+
+pour les formes, canva ou plane en 3D (regarder pour les mixblendmode en post processing)

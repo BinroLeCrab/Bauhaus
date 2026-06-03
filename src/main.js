@@ -26,45 +26,60 @@ viewingScene.init();
 const pane = new Pane();
 
 const tab = pane.addTab({
-  pages: [
-    {title: 'Parameters'},
-    {title: 'Post-Processing'},
-  ],
+	pages: [
+		{ title: "Parameters" },
+		{ title: "Audio" },
+		{ title: "Object" },
+		{ title: "Post-Processing" },
+	],
 });
 
 const f1 = tab.pages[0].addFolder({
-  title: 'Scene Bass Frequency',
+	title: "Scene Bass Frequency",
 });
 
-f1.addBinding(params.sceneBass, "bgColor", { view: "color" }).on("change", () => {
-	sceneBass.scene.background.set(params.sceneBass.bgColor);
-});
+f1.addBinding(params.sceneBass, "bgColor", { view: "color" }).on(
+	"change",
+	() => {
+		sceneBass.scene.background.set(params.sceneBass.bgColor);
+    sceneBass.world.setColor(params.sceneBass.bgColor);
+	}
+);
 
-f1.addBinding(params.sceneBass, "cubeColor", { view: "color" }).on("change", () => {
-	sceneBass.cube.material.color.set(params.sceneBass.cubeColor);
-});
+f1.addBinding(params.sceneBass, "cubeColor", { view: "color" }).on(
+	"change",
+	() => {
+		sceneBass.cube.material.color.set(params.sceneBass.cubeColor);
+	}
+);
 
 const f2 = tab.pages[0].addFolder({
-  title: 'Scene High Frequency',
+	title: "Scene High Frequency",
 });
 
-f2.addBinding(params.sceneHigh, "bgColor", { view: "color" }).on("change", () => {
-	sceneHigh.scene.background.set(params.sceneHigh.bgColor);
-});
+f2.addBinding(params.sceneHigh, "bgColor", { view: "color" }).on(
+	"change",
+	() => {
+		sceneHigh.scene.background.set(params.sceneHigh.bgColor);
+	}
+);
 
-f2.addBinding(params.sceneHigh, "cubeColor", { view: "color" }).on("change", () => {
-	sceneHigh.cube.material.color.set(params.sceneHigh.cubeColor);
-});
+f2.addBinding(params.sceneHigh, "cubeColor", { view: "color" }).on(
+	"change",
+	() => {
+		sceneHigh.cube.material.color.set(params.sceneHigh.cubeColor);
+	}
+);
 
 const f3 = tab.pages[0].addFolder({
-  title: 'Camera',
+	title: "Camera",
 });
 
 f3.addBinding(params.camera, "fov", { min: 1, max: 180 }).on("change", () => {
 	sceneBass.camera.fov = params.camera.fov;
 	sceneBass.camera.updateProjectionMatrix();
-  sceneHigh.camera.fov = params.camera.fov;
-  sceneHigh.camera.updateProjectionMatrix();
+	sceneHigh.camera.fov = params.camera.fov;
+	sceneHigh.camera.updateProjectionMatrix();
 });
 
 f3.addBinding(params.camera, "near", { min: 0.1, max: 100 }).on(
@@ -72,8 +87,8 @@ f3.addBinding(params.camera, "near", { min: 0.1, max: 100 }).on(
 	() => {
 		sceneBass.camera.near = params.camera.near;
 		sceneBass.camera.updateProjectionMatrix();
-    sceneHigh.camera.near = params.camera.near;
-    sceneHigh.camera.updateProjectionMatrix();
+		sceneHigh.camera.near = params.camera.near;
+		sceneHigh.camera.updateProjectionMatrix();
 	}
 );
 
@@ -82,35 +97,35 @@ f3.addBinding(params.camera, "far", { min: 100, max: 2000 }).on(
 	() => {
 		sceneBass.camera.far = params.camera.far;
 		sceneBass.camera.updateProjectionMatrix();
-    sceneHigh.camera.far = params.camera.far;
-    sceneHigh.camera.updateProjectionMatrix();
+		sceneHigh.camera.far = params.camera.far;
+		sceneHigh.camera.updateProjectionMatrix();
 	}
 );
 
 f3.addBinding(params.camera.position, "x", { min: -10, max: 10 }).on(
-  "change",
-  () => {
-    sceneBass.camera.position.x = params.camera.position.x;
-    sceneHigh.camera.position.x = params.camera.position.x;
-  }
+	"change",
+	() => {
+		sceneBass.camera.position.x = params.camera.position.x;
+		sceneHigh.camera.position.x = params.camera.position.x;
+	}
 );
 f3.addBinding(params.camera.position, "y", { min: -10, max: 10 }).on(
-  "change",
-  () => {
-    sceneBass.camera.position.y = params.camera.position.y;
-    sceneHigh.camera.position.y = params.camera.position.y;
-  }
+	"change",
+	() => {
+		sceneBass.camera.position.y = params.camera.position.y;
+		sceneHigh.camera.position.y = params.camera.position.y;
+	}
 );
 f3.addBinding(params.camera.position, "z", { min: -10, max: 10 }).on(
-  "change",
-  () => {
-    sceneBass.camera.position.z = params.camera.position.z;
-    sceneHigh.camera.position.z = params.camera.position.z;
-  }
+	"change",
+	() => {
+		sceneBass.camera.position.z = params.camera.position.z;
+		sceneHigh.camera.position.z = params.camera.position.z;
+	}
 );
 
-const f4 = tab.pages[0].addFolder({
-  title: 'Audio',
+const f4 = tab.pages[1].addFolder({
+	title: "Audio",
 });
 
 f4.addBinding(params.audio, "frequency", { min: 0, max: 1 });
@@ -119,50 +134,111 @@ f4.addBinding(params.audio, "highBoost", { min: 0, max: 5, step: 0.25 });
 f4.addBinding(params.audio, "bassBoost", { min: 0, max: 5, step: 0.25 });
 f4.addBinding(audioAnalyzer, "useAudio");
 
-const f5 = tab.pages[1].addFolder({
-  title: 'Halftone',
+const f5 = tab.pages[3].addFolder({
+	title: "Halftone",
 });
 
-f5.addBinding(params.halftone, 'shape', {
-  options: { 'Dot': 1, 'Ellipse': 2, 'Line': 3, 'Square': 4, 'Diamond': 5 }
-}).on('change', (ev) => {
-  viewingScene.halftonePass.uniforms.shape.value = ev.value;
+f5.addBinding(params.halftone, "shape", {
+	options: { Dot: 1, Ellipse: 2, Line: 3, Square: 4, Diamond: 5 },
+}).on("change", (ev) => {
+	viewingScene.halftonePass.uniforms.shape.value = ev.value;
 });
 
-f5.addBinding(params.halftone, 'radius', { min: 1, max: 25 }).on('change', (ev) => {
-  viewingScene.halftonePass.uniforms.radius.value = ev.value;
+f5.addBinding(params.halftone, "radius", { min: 1, max: 25 }).on(
+	"change",
+	(ev) => {
+		viewingScene.halftonePass.uniforms.radius.value = ev.value;
+	}
+);
+
+f5.addBinding(params.halftone, "rotateR", { min: 0, max: Math.PI }).on(
+	"change",
+	(ev) => {
+		viewingScene.halftonePass.uniforms.rotateR.value = ev.value;
+	}
+);
+
+f5.addBinding(params.halftone, "rotateG", { min: 0, max: Math.PI }).on(
+	"change",
+	(ev) => {
+		viewingScene.halftonePass.uniforms.rotateG.value = ev.value;
+	}
+);
+
+f5.addBinding(params.halftone, "rotateB", { min: 0, max: Math.PI }).on(
+	"change",
+	(ev) => {
+		viewingScene.halftonePass.uniforms.rotateB.value = ev.value;
+	}
+);
+
+f5.addBinding(params.halftone, "scatter", { min: 0, max: 1, step: 0.01 }).on(
+	"change",
+	(ev) => {
+		viewingScene.halftonePass.uniforms.scatter.value = ev.value;
+	}
+);
+
+f5.addBinding(params.halftone, "greyscale").on("change", (ev) => {
+	viewingScene.halftonePass.uniforms.greyscale.value = ev.value;
 });
 
-f5.addBinding(params.halftone, 'rotateR', { min: 0, max: Math.PI }).on('change', (ev) => {
-  viewingScene.halftonePass.uniforms.rotateR.value = ev.value;
+f5.addBinding(params.halftone, "blending", { min: 0, max: 1, step: 0.01 }).on(
+	"change",
+	(ev) => {
+		viewingScene.halftonePass.uniforms.blending.value = ev.value;
+	}
+);
+
+f5.addBinding(params.halftone, "blendingMode", {
+	options: { Linear: 1, Multiply: 2, Add: 3, Lighter: 4, Darker: 5 },
+}).on("change", (ev) => {
+	viewingScene.halftonePass.uniforms.blendingMode.value = ev.value;
 });
 
-f5.addBinding(params.halftone, 'rotateG', { min: 0, max: Math.PI }).on('change', (ev) => {
-  viewingScene.halftonePass.uniforms.rotateG.value = ev.value;
+f5.addBinding(params.halftone, "disable").on("change", (ev) => {
+	viewingScene.halftonePass.uniforms.disable.value = ev.value;
 });
 
-f5.addBinding(params.halftone, 'rotateB', { min: 0, max: Math.PI }).on('change', (ev) => {
-  viewingScene.halftonePass.uniforms.rotateB.value = ev.value;
+const f6 = tab.pages[2].addFolder({
+	title: "Monolith",
 });
 
-f5.addBinding(params.halftone, 'scatter', { min: 0, max: 1, step: 0.01 }).on('change', (ev) => {
-  viewingScene.halftonePass.uniforms.scatter.value = ev.value;
+f6.addBinding(params.object.monolith, "animation");
+f6.addBinding(params.object.monolith, "scaleVolume", { min: 0, max: 5, step: 0.1 });
+f6.addBinding(params.object.monolith, "position", {
+	x: { min: -10, max: 10 },
+	y: { min: -10, max: 10 },
+	z: { min: -10, max: 10 },
+}).on("change", (ev) => {
+	sceneBass.monolith.mesh.position.x = ev.value;
+	sceneHigh.monolith.mesh.position.x = ev.value;
+	sceneBass.monolith.mesh.position.y = ev.value;
+	sceneHigh.monolith.mesh.position.y = ev.value;
+	sceneBass.monolith.mesh.position.z = ev.value;
+	sceneHigh.monolith.mesh.position.z = ev.value;
 });
 
-f5.addBinding(params.halftone, 'greyscale').on('change', (ev) => {
-  viewingScene.halftonePass.uniforms.greyscale.value = ev.value;
-});
-
-f5.addBinding(params.halftone, 'blending', { min: 0, max: 1, step: 0.01 }).on('change', (ev) => {
-  viewingScene.halftonePass.uniforms.blending.value = ev.value;
-});
-
-f5.addBinding(params.halftone, 'blendingMode', {
-  options: { 'Linear': 1, 'Multiply': 2, 'Add': 3, 'Lighter': 4, 'Darker': 5 }
-}).on('change', (ev) => {
-  viewingScene.halftonePass.uniforms.blendingMode.value = ev.value;
-});
-
-f5.addBinding(params.halftone, 'disable').on('change', (ev) => {
-  viewingScene.halftonePass.uniforms.disable.value = ev.value;
-});
+f6.addBinding(params.object.monolith.size, "width", { min: 0.1, max: 5 }).on(
+	"change",
+	(ev) => {
+		sceneBass.monolith.mesh.scale.x = ev.value / params.object.monolith.size.width;
+		sceneHigh.monolith.mesh.scale.x = ev.value / params.object.monolith.size.width;
+	}
+);
+f6.addBinding(params.object.monolith.size, "height", { min: 0.1, max: 5 }).on(
+	"change",
+	(ev) => {
+		sceneBass.monolith.mesh.scale.y =
+			ev.value / params.object.monolith.size.height;
+		sceneHigh.monolith.mesh.scale.y =
+			ev.value / params.object.monolith.size.height;
+	}
+);
+f6.addBinding(params.object.monolith.size, "depth", { min: 0.1, max: 5 }).on(
+	"change",
+	(ev) => {
+		sceneBass.monolith.mesh.scale.z = ev.value / params.object.monolith.size.depth;
+		sceneHigh.monolith.mesh.scale.z = ev.value / params.object.monolith.size.depth;
+	}
+);

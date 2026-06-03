@@ -4,6 +4,7 @@ import Stats from "three/examples/jsm/libs/stats.module.js";
 import { params } from "../constant/params";
 import sharedRender from "../Render";
 import Monolith from "../Object/Monolith";
+import World from "../Object/World";
 
 class Scene {
 	constructor(bgColor = 0x000000, cubeColor = 0x00ff00) {
@@ -41,14 +42,25 @@ class Scene {
             params.camera.position.y,
             params.camera.position.z
         );
+
+		
 	}
 
 	setupControls() {
 		this.controls = new OrbitControls(this.camera, sharedRender.renderer.domElement);
+
+		this.camera.lookAt(
+            params.camera.lookAt.x,
+            params.camera.lookAt.y,
+            params.camera.lookAt.z
+        );
+
+		// this.controls.update();
 	}
 
 	addObject() {
-		
+		this.world = new World(this.bgColor);
+		this.scene.add(this.world);
 		this.monolith = new Monolith(this.cubeColor);
 		this.scene.add(this.monolith);
 	}
