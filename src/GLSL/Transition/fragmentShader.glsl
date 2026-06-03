@@ -31,7 +31,7 @@ void main() {
     float inverUVX = 1.0 - vUv.x;
 
     float circle = distance(gridUv, vec2(0.5));
-    float strenght = step(revertFrequency + (inverUVX * 0.25), circle);
+    float strenght = step(revertFrequency + (inverUVX * 0.25) - 0.25, circle);
 
     // gl_FragColor = vec4(strenght, strenght, strenght, 1.0);
 
