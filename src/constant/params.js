@@ -39,6 +39,6 @@ export const params = {
 		blending: 0.5,
 		blendingMode: 1,
 		greyscale: false,
-		disable: false,
+		disable: true,
 	},
 };

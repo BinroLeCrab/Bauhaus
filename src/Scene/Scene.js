@@ -3,6 +3,7 @@ import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import Stats from "three/examples/jsm/libs/stats.module.js";
 import { params } from "../constant/params";
 import sharedRender from "../Render";
+import Monolith from "../Object/Monolith";
 
 class Scene {
 	constructor(bgColor = 0x000000, cubeColor = 0x00ff00) {
@@ -47,18 +48,17 @@ class Scene {
 	}
 
 	addObject() {
-		const geometry = new THREE.BoxGeometry(1, 1, 1);
-		const material = new THREE.MeshBasicMaterial({ color: this.cubeColor });
-		this.cube = new THREE.Mesh(geometry, material);
-		this.scene.add(this.cube);
+		
+		this.monolith = new Monolith(this.cubeColor);
+		this.scene.add(this.monolith);
 	}
 
 	render() {
 		sharedRender.renderer.render(this.scene, this.camera);
 	}
 
-	tick = (time) => {
-        this.cube.rotation.x = time / 2000;
+	tick(time) {
+        this.monolith.tick(time);
 		this.render();
 	};
 

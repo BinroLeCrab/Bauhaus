@@ -19,10 +19,8 @@ class SceneHigh extends Scene {
 		sharedRender.renderer.setRenderTarget(null);
 	}
 
-	tick = (time) => {
-		this.cube.rotation.x = time / 2000;
-		this.render();
-		// console.log("SceneHigh rendering..."); // Pour voir si ça rend
+	tick(time) {
+		super.tick(time);
 	};
 }
 

@@ -5,7 +5,7 @@ import { params } from "./constant/params";
 import sharedRender from "./Render";
 import SceneBass from "./Scene/SceneBass";
 import SceneHigh from "./Scene/SceneHigh";
-
+import audioAnalyzer from "./AudioAnalyzer";
 
 sharedRender.init();
 sharedRender.startAnimationLoop();
@@ -117,7 +117,7 @@ f4.addBinding(params.audio, "frequency", { min: 0, max: 1 });
 f4.addBinding(params.audio, "cutNumber", { min: 1, max: 255, step: 1 });
 f4.addBinding(params.audio, "highBoost", { min: 0, max: 5, step: 0.25 });
 f4.addBinding(params.audio, "bassBoost", { min: 0, max: 5, step: 0.25 });
-f4.addBinding(viewingScene, "useAudio");
+f4.addBinding(audioAnalyzer, "useAudio");
 
 const f5 = tab.pages[1].addFolder({
   title: 'Halftone',
