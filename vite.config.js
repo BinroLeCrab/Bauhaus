@@ -1,8 +1,16 @@
 import { defineConfig } from 'vite'
-import { copyFileSync, cpSync, existsSync } from 'fs'
+import { cpSync, existsSync } from 'fs'
 import { resolve } from 'path'
 
 export default defineConfig({
+  build: {
+    rollupOptions: {
+      input: {
+        main: resolve(__dirname, 'index.html'),
+        base: resolve(__dirname, 'base.html')
+      }
+    }
+  },
   plugins: [
     {
       name: 'copy-tracks',
