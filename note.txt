@@ -36,3 +36,6 @@ si la balance s'inverse alors transi entre les deux
 --
 
 pour les formes, canva ou plane en 3D (regarder pour les mixblendmode en post processing)
+
+-- 
+pour les texture, calculer à partir de la position en y pour que ce soit plus propre
