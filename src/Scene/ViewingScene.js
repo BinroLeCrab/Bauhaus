@@ -5,10 +5,19 @@ import { params } from "../constant/params.js";
 import sharedRender from "../Render.js";
 import vertexShader from '../GLSL/Transition/vertexShader.glsl?raw';
 import fragmentShader from '../GLSL/Transition/fragmentShader.glsl?raw';
+import Analyzer from "../../sounds/Analyzer.js";
 
 class ViewingScene extends Scene {
 	constructor() {
 		super(params.sceneView.bgColor, params.sceneView.cubeColor);
+	}
+
+	setupAudio() {
+		this.audio = new Analyzer();
+		this.volume = params.audio.frequency;
+		this.audio.onAudio((a) => {
+			this.volume = a.volumeSmooth;
+		})
 	}
 
 	addObject() {
@@ -65,12 +74,13 @@ class ViewingScene extends Scene {
 
 	init() {
 		this.setupStats();
+		this.setupAudio();
 		sharedRender.addScene(this);
 	}
 
 	tick = (time) => {
 		this.stats.begin();
-        this.shadersMaterial.uniforms.uAudioFrequency.value = params.audio.frequency;
+        this.shadersMaterial.uniforms.uAudioFrequency.value = this.volume;
 		this.render();
 		this.stats.end();
 	};
