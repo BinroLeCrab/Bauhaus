@@ -31,7 +31,7 @@ class AudioAnalyzer {
 		this.kick = 0;
 		this.kickHard = 0;
 		this.kickThreshold = 0.7;
-		this.kickHardThreshold = 0.9;
+		this.kickHardThreshold = 0.5;
 
 		this.audio.onAudio((a) => {
 			this.volume = a.volumeSmooth;

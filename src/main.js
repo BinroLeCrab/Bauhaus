@@ -177,6 +177,11 @@ f4.addBinding(audioAnalyzer, "kickThreshold", {
 	max: 1,
 	step: 0.01,
 });
+f4.addBinding(audioAnalyzer, "kickHardThreshold", {
+	min: 0,
+	max: 1,
+	step: 0.01,
+});
 f4.addBinding(bandManager, "volumeThreshold", {
 	min: 0,
 	max: 1,

@@ -130,7 +130,7 @@ class Monolith extends Object3D {
 	}
 
 	rotatation() {
-		if (audioAnalyzer.getKick() && this.rotationDestination === null) {
+		if (audioAnalyzer.getKickHard() && this.rotationDestination === null) {
 			this.rotationDestination = this.rotation.y + this.rotationValue;
 		} else if (this.rotationDestination !== null) {
 			const rotationDifference =
@@ -140,7 +140,7 @@ class Monolith extends Object3D {
 				this.rotation.y = this.rotationDestination;
 				this.rotationDestination = null;
 			} else {
-				this.rotation.y += rotationDifference * 0.1;
+				this.rotation.y += rotationDifference * 0.4;
 			}
 		}
 	}

@@ -16,7 +16,7 @@ class ViewingScene extends Scene {
 		super(params.sceneView.bgColor, params.sceneView.cubeColor);
 
 		this.transitionCounter = 0;
-		this.transitionDuration = 10; // Durée de la transition en secondes
+		this.transitionDuration = 8; // Durée de la transition en secondes
 		this.transitionStep = 'bass'; // 'bass' ou 'high'
 	}
 
