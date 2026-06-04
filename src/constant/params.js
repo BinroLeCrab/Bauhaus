@@ -51,7 +51,7 @@ export const params = {
 	},
 	object: {
 		monolith: {
-			animation: false,
+			animation: true,
 			position: {
 				x: 0,
 				y: 0,
@@ -62,7 +62,7 @@ export const params = {
 				height: 4,
 				depth: 1.75,
 			},
-			scaleVolume: 0.5,
+			scaleVolume: 0.15,
 		}
 	}
 };
