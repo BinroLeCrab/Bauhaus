@@ -12,12 +12,14 @@ class Scene {
 		bgColor = 0x000000,
 		skyColor = 0x0000ff,
 		floorColor = 0x00ff00,
-		cubeColor = 0xffffff
+		cubeColor = 0xffffff,
+		secondaryColor = []
 	) {
 		this.bgColor = bgColor;
 		this.skyColor = skyColor;
 		this.floorColor = floorColor;
 		this.cubeColor = cubeColor;
+		this.secondaryColor = secondaryColor;
 		this.width = window.innerWidth;
 		this.height = window.innerHeight;
 		this.setupScene();
@@ -84,7 +86,7 @@ class Scene {
 		// this.scene.add(this.world);
 		this.background = new Background(this.camera, this.skyColor);
 		this.scene.add(this.background);
-		this.monolith = new Monolith(this.cubeColor, this.floorColor);
+		this.monolith = new Monolith(this.cubeColor, this.floorColor, this.secondaryColor);
 		this.scene.add(this.monolith);
 	}
 

@@ -7,18 +7,23 @@ import fragmentShader from "../GLSL/Texture/fragmentShader.glsl?raw";
 import cubeManager from "./CubeManager";
 
 class Monolith extends Object3D {
-	constructor(skyColor = 0x0000ff, floorColor = 0x00ff00) {
+	constructor(
+		skyColor = 0x0000ff,
+		floorColor = 0x00ff00,
+		secondaryColor = []
+	) {
 		super();
 
 		this.skyColor = skyColor;
 		this.floorColor = floorColor;
+		this.secondaryColor = secondaryColor;
 
 		this.initMaterial();
 		this.createMonolith();
 		this.initPosition();
 
 		cubeManager.registerMonolith(this);
-		
+
 		this.cubes = [];
 		this.volume = 0;
 
@@ -27,7 +32,7 @@ class Monolith extends Object3D {
 
 		this.rotation.y = Math.PI / 4;
 	}
-	
+
 	initMaterial() {
 		this.shaderMaterial = new THREE.ShaderMaterial({
 			uniforms: THREE.UniformsUtils.merge([
@@ -36,8 +41,12 @@ class Monolith extends Object3D {
 					uSkyPosition: new THREE.Uniform(
 						params.object.monolith.size.height
 					),
-					uColorFloor: new THREE.Uniform(new THREE.Color(this.floorColor)),
-					uColorSky: new THREE.Uniform(new THREE.Color(this.skyColor)),
+					uColorFloor: new THREE.Uniform(
+						new THREE.Color(this.floorColor)
+					),
+					uColorSky: new THREE.Uniform(
+						new THREE.Color(this.skyColor)
+					),
 				},
 			]),
 			lights: true, // ← Activer l'éclairage
@@ -45,18 +54,35 @@ class Monolith extends Object3D {
 			vertexShader: vertexShader,
 		});
 
-		this.cubeMaterial = new THREE.MeshBasicMaterial({
-			color: 0xffffff,
+		this.cubeMaterial = [];
+
+		this.secondaryColor.forEach((color, index) => {
+			// this.cubeMaterial[index] = new THREE.ShaderMaterial({
+			// 	uniforms: {
+			// 		uSkyPosition: new THREE.Uniform(
+			// 			params.object.monolith.size.height
+			// 		),
+			// 		uColorFloor: new THREE.Uniform(
+			// 			new THREE.Color(this.floorColor)
+			// 		),
+			// 		uColorSky: new THREE.Uniform(new THREE.Color(color)),
+			// 	},
+			// 	fragmentShader: fragmentShader,
+			// 	vertexShader: vertexShader,
+			// });
+			this.cubeMaterial[index] = new THREE.MeshBasicMaterial({
+				color: color,
+			});
+			
 		});
 	}
 
 	createMonolith() {
-
 		const geometry = new THREE.BoxGeometry(
 			params.object.monolith.size.width,
 			params.object.monolith.size.height,
 			params.object.monolith.size.depth
-		); 
+		);
 
 		this.mesh = new THREE.Mesh(geometry, this.shaderMaterial);
 		this.add(this.mesh);
@@ -66,7 +92,7 @@ class Monolith extends Object3D {
 		this.position.set(
 			params.object.monolith.position.x,
 			params.object.monolith.size.height / 2 +
-			params.object.monolith.position.y,
+				params.object.monolith.position.y,
 			params.object.monolith.position.z
 		);
 	}
@@ -91,7 +117,7 @@ class Monolith extends Object3D {
 			cubeData.size.depth
 		);
 		console.log(this.cubeMaterial);
-		const cubeMesh = new THREE.Mesh(cubeGeometry, this.cubeMaterial);
+		const cubeMesh = new THREE.Mesh(cubeGeometry, this.cubeMaterial[cubeData.color]);
 
 		cubeMesh.position.set(
 			cubeData.position.x,
@@ -101,7 +127,7 @@ class Monolith extends Object3D {
 
 		this.cubes.push(cubeMesh);
 		this.add(cubeMesh);
-	};
+	}
 
 	rotatation() {
 		if (audioAnalyzer.getKick() && this.rotationDestination === null) {
