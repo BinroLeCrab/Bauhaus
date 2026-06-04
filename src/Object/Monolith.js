@@ -14,17 +14,17 @@ class Monolith extends Object3D {
 			params.object.monolith.size.depth
 		);
 		this.material = new THREE.ShaderMaterial({
-			uniforms: {
-				// uMap: new THREE.Uniform(),
-				// uSize: new THREE.Uniform(2),
-				// uTime : new THREE.Uniform(0),
-				uSkyPosition: new THREE.Uniform(
-					params.object.monolith.size.height
-				),
-				uColorFloor: new THREE.Uniform(new THREE.Color(floorColor)),
-				uColorSky: new THREE.Uniform(new THREE.Color(skyColor)),
-			},
-			// side: THREE.DoubleSide,
+			uniforms: THREE.UniformsUtils.merge([
+				THREE.UniformsLib.lights, // ← Ajouter ça
+				{
+					uSkyPosition: new THREE.Uniform(
+						params.object.monolith.size.height
+					),
+					uColorFloor: new THREE.Uniform(new THREE.Color(floorColor)),
+					uColorSky: new THREE.Uniform(new THREE.Color(skyColor)),
+				},
+			]),
+			lights: true, // ← Activer l'éclairage
 			fragmentShader: fragmentShader,
 			vertexShader: vertexShader,
 		});
@@ -43,9 +43,13 @@ class Monolith extends Object3D {
 
 		this.cubes = [];
 		this.counter = 0;
-		this.cubesMaxCount = 4;
+		this.cubesMaxCount = 8;
 		this.cubesMinSize = 0.5;
 		this.cubesMaxSize = 1;
+		this.cubesMinDepth = 0.25;
+		this.cubesMaxDepth = 0.60;
+
+		this.rotation.y = Math.PI / 4;
 	}
 
 	setColorSky(color) {
@@ -61,22 +65,38 @@ class Monolith extends Object3D {
 
 		if (this.kick) {
 			if (this.counter >= this.cubesMaxCount) {
+				this.cubes.forEach((cube) => this.remove(cube));
 				this.cubes = [];
-				this.children = [this.mesh];
 				this.counter = 0;
 			} else {
 				this.counter++;
-				const cubeSize = Math.random() * (this.cubesMaxSize - this.cubesMinSize) + this.cubesMinSize;
-				const cubeGeometry = new THREE.BoxGeometry(cubeSize, cubeSize, cubeSize);
-				const cubeMesh = new THREE.Mesh(cubeGeometry, this.material);
-				const offsetX = (Math.random() - 0.5) * params.object.monolith.size.width;
+				const cubeSize =
+					Math.random() * (this.cubesMaxSize - this.cubesMinSize) +
+					this.cubesMinSize;
+					const cubeDepth =
+					Math.random() * (this.cubesMaxDepth - this.cubesMinDepth) +
+					this.cubesMinDepth;
+				const cubeGeometry = new THREE.BoxGeometry(
+					cubeSize,
+					cubeSize,
+					cubeSize
+				);
+
+				const cubeMaterial = new THREE.MeshBasicMaterial({
+					color: 0xffffff,
+				});
+
+				const cubeMesh = new THREE.Mesh(cubeGeometry, cubeMaterial);
+
+				const offsetX = (Math.random() > 0.5 ? 1 : -1) * (params.object.monolith.size.width / 2);
 				const offsetY = (Math.random() - 0.5) * params.object.monolith.size.height;
-				const offsetZ = (Math.random() - 0.5) * params.object.monolith.size.depth;
+				const offsetZ = (Math.random() > 0.5 ? 1 : -1) * (params.object.monolith.size.depth / 2);
 				cubeMesh.position.set(
 					this.mesh.position.x + offsetX,
 					this.mesh.position.y + offsetY,
 					this.mesh.position.z + offsetZ
 				);
+
 				this.cubes.push(cubeMesh);
 				this.add(cubeMesh);
 			}
@@ -93,7 +113,7 @@ class Monolith extends Object3D {
 				1 + params.object.monolith.scaleVolume * this.volume,
 				1.1
 			);
-			this.mesh.scale.set(scale, scale, scale);
+			this.scale.set(scale, scale, scale);
 		}
 	};
 }

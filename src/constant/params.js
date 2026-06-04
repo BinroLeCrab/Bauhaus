@@ -17,7 +17,7 @@ export const params = {
 	},
 
 	camera: {
-		fov: 75,
+		fov: 90,
 		near: 0.1,
 		far: 1000,
 		position: {
