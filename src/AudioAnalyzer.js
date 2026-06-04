@@ -27,10 +27,20 @@ class AudioAnalyzer {
 
 		this.balanceThreshold = 0.4; // Threshold to determine if high frequencies are stronger than bass
 
+		this.kick = 0;
 		this.audio.onAudio((a) => {
 			this.volume = a.volumeSmooth;
 			this.frequencyData = a.volumeByFrequency;
+			this.kick = a.kick;
 		});
+
+		this.kickFrequency = 40;
+		this.kickCounter = 0;
+		this.kickThreshold = 0.6;
+	}
+
+	getKick() {
+		return this.kick > this.kickThreshold;
 	}
 
 	getFrequencyBalance() {

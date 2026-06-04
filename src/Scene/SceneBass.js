@@ -5,7 +5,7 @@ import * as THREE from "three";
 
 class SceneBass extends Scene {
 	constructor() {
-		super(params.sceneBass.bgColor, params.sceneBass.skyColor, params.sceneBass.floorColor);
+		super(params.sceneBass.bgColor, params.sceneBass.skyColor, params.sceneBass.floorColor, params.sceneBass.cubeColor);
 		this.renderTarget = new THREE.WebGLRenderTarget(
 			this.width,
 			this.height

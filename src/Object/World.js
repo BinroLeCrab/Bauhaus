@@ -36,8 +36,12 @@ class World extends Object3D {
 		this.mesh.position.z = 0.5;
 	}
 
-	setColor(color) {
-		this.mesh.material.color.set(color);
+	setColorSky(color) {
+		this.mesh.material.uniforms.uColorSky.value.set(color);
+	}
+
+	setColorFloor(color) {
+		this.mesh.material.uniforms.uColorFloor.value.set(color);
 	}
 }
 

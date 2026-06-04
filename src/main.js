@@ -42,7 +42,13 @@ f1.addBinding(params.sceneBass, "bgColor", { view: "color" }).on(
 	"change",
 	() => {
 		sceneBass.scene.background.set(params.sceneBass.bgColor);
-    sceneBass.world.setColor(params.sceneBass.bgColor);
+	}
+);
+
+f1.addBinding(params.sceneBass, "cubeColor", { view: "color" }).on(
+	"change",
+	() => {
+		sceneBass.monolith.setColorSky(params.sceneBass.cubeColor);
 	}
 );
 
@@ -74,7 +80,21 @@ f2.addBinding(params.sceneHigh, "bgColor", { view: "color" }).on(
 f2.addBinding(params.sceneHigh, "cubeColor", { view: "color" }).on(
 	"change",
 	() => {
-		sceneHigh.cube.material.color.set(params.sceneHigh.cubeColor);
+		sceneHigh.monolith.setColorSky(params.sceneHigh.cubeColor);
+	}
+);
+
+f2.addBinding(params.sceneHigh, "floorColor", { view: "color" }).on(
+	"change",
+	() => {
+		sceneHigh.setFloorColor(params.sceneHigh.floorColor);
+	}
+);
+
+f2.addBinding(params.sceneHigh, "skyColor", { view: "color" }).on(
+	"change",
+	() => {
+		sceneHigh.setSkyColor(params.sceneHigh.skyColor);
 	}
 );
 
@@ -139,7 +159,11 @@ f4.addBinding(params.audio, "frequency", { min: 0, max: 1 });
 f4.addBinding(params.audio, "cutNumber", { min: 1, max: 255, step: 1 });
 f4.addBinding(params.audio, "highBoost", { min: 0, max: 5, step: 0.25 });
 f4.addBinding(params.audio, "bassBoost", { min: 0, max: 5, step: 0.25 });
-f4.addBinding(audioAnalyzer, "balanceThreshold", { min: 0, max: 1, step: 0.01 });
+f4.addBinding(audioAnalyzer, "balanceThreshold", {
+	min: 0,
+	max: 1,
+	step: 0.01,
+});
 f4.addBinding(audioAnalyzer, "useAudio");
 f4.addBinding(audioAnalyzer, "useFrequencyBalance");
 
@@ -214,7 +238,11 @@ const f6 = tab.pages[2].addFolder({
 });
 
 f6.addBinding(params.object.monolith, "animation");
-f6.addBinding(params.object.monolith, "scaleVolume", { min: 0, max: 5, step: 0.1 });
+f6.addBinding(params.object.monolith, "scaleVolume", {
+	min: 0,
+	max: 5,
+	step: 0.1,
+});
 f6.addBinding(params.object.monolith, "position", {
 	x: { min: -10, max: 10 },
 	y: { min: -10, max: 10 },
@@ -231,8 +259,10 @@ f6.addBinding(params.object.monolith, "position", {
 f6.addBinding(params.object.monolith.size, "width", { min: 0.1, max: 5 }).on(
 	"change",
 	(ev) => {
-		sceneBass.monolith.mesh.scale.x = ev.value / params.object.monolith.size.width;
-		sceneHigh.monolith.mesh.scale.x = ev.value / params.object.monolith.size.width;
+		sceneBass.monolith.mesh.scale.x =
+			ev.value / params.object.monolith.size.width;
+		sceneHigh.monolith.mesh.scale.x =
+			ev.value / params.object.monolith.size.width;
 	}
 );
 f6.addBinding(params.object.monolith.size, "height", { min: 0.1, max: 5 }).on(
@@ -247,7 +277,9 @@ f6.addBinding(params.object.monolith.size, "height", { min: 0.1, max: 5 }).on(
 f6.addBinding(params.object.monolith.size, "depth", { min: 0.1, max: 5 }).on(
 	"change",
 	(ev) => {
-		sceneBass.monolith.mesh.scale.z = ev.value / params.object.monolith.size.depth;
-		sceneHigh.monolith.mesh.scale.z = ev.value / params.object.monolith.size.depth;
+		sceneBass.monolith.mesh.scale.z =
+			ev.value / params.object.monolith.size.depth;
+		sceneHigh.monolith.mesh.scale.z =
+			ev.value / params.object.monolith.size.depth;
 	}
 );
