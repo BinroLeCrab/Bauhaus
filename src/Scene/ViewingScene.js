@@ -8,6 +8,7 @@ import fragmentShader from "../GLSL/Transition/fragmentShader.glsl?raw";
 import Analyzer from "../../sounds/Analyzer.js";
 import { HalftonePass, RenderPass } from "three/examples/jsm/Addons.js";
 import audioAnalyzer from "../AudioAnalyzer.js";
+import cubeManager from "../Object/CubeManager.js";
 
 class ViewingScene extends Scene {
 	constructor() {
@@ -95,6 +96,11 @@ class ViewingScene extends Scene {
 	tick(time) {
 		this.stats.begin();
 		if (audioAnalyzer.useAudio) {
+
+			if (audioAnalyzer.getKick()) {
+				cubeManager.onKick();
+			}
+
 			this.shadersMaterial.uniforms.uAudioFrequency.value = audioAnalyzer.getFrequencyBalance();
 			this.shadersMaterial.uniforms.uAspectRatio.value = this.width / this.height;
 		} else {

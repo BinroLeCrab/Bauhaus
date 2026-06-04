@@ -4,16 +4,31 @@ import audioAnalyzer from "../AudioAnalyzer";
 import { params } from "../constant/params";
 import vertexShader from "../GLSL/Texture/vertexShader.glsl?raw";
 import fragmentShader from "../GLSL/Texture/fragmentShader.glsl?raw";
+import cubeManager from "./CubeManager";
 
 class Monolith extends Object3D {
 	constructor(skyColor = 0x0000ff, floorColor = 0x00ff00) {
 		super();
-		const geometry = new THREE.BoxGeometry(
-			params.object.monolith.size.width,
-			params.object.monolith.size.height,
-			params.object.monolith.size.depth
-		);
 
+		this.skyColor = skyColor;
+		this.floorColor = floorColor;
+
+		this.initMaterial();
+		this.createMonolith();
+		this.initPosition();
+
+		cubeManager.registerMonolith(this);
+		
+		this.cubes = [];
+		this.volume = 0;
+
+		this.rotationValue = Math.PI / 2;
+		this.rotationDestination = null;
+
+		this.rotation.y = Math.PI / 4;
+	}
+	
+	initMaterial() {
 		this.shaderMaterial = new THREE.ShaderMaterial({
 			uniforms: THREE.UniformsUtils.merge([
 				THREE.UniformsLib.lights, // ← Ajouter ça
@@ -21,8 +36,8 @@ class Monolith extends Object3D {
 					uSkyPosition: new THREE.Uniform(
 						params.object.monolith.size.height
 					),
-					uColorFloor: new THREE.Uniform(new THREE.Color(floorColor)),
-					uColorSky: new THREE.Uniform(new THREE.Color(skyColor)),
+					uColorFloor: new THREE.Uniform(new THREE.Color(this.floorColor)),
+					uColorSky: new THREE.Uniform(new THREE.Color(this.skyColor)),
 				},
 			]),
 			lights: true, // ← Activer l'éclairage
@@ -30,34 +45,30 @@ class Monolith extends Object3D {
 			vertexShader: vertexShader,
 		});
 
-		this.cubeMaterial = new THREE.MeshPhongMaterial({
+		this.cubeMaterial = new THREE.MeshBasicMaterial({
 			color: 0xffffff,
 		});
+	}
+
+	createMonolith() {
+
+		const geometry = new THREE.BoxGeometry(
+			params.object.monolith.size.width,
+			params.object.monolith.size.height,
+			params.object.monolith.size.depth
+		); 
+
 		this.mesh = new THREE.Mesh(geometry, this.shaderMaterial);
 		this.add(this.mesh);
+	}
 
+	initPosition() {
 		this.position.set(
 			params.object.monolith.position.x,
 			params.object.monolith.size.height / 2 +
-				params.object.monolith.position.y,
+			params.object.monolith.position.y,
 			params.object.monolith.position.z
 		);
-
-		this.volume = 0;
-		this.kick = false;
-
-		this.cubes = [];
-		this.counter = 0;
-		this.cubesMaxCount = 8;
-		this.cubesMinSize = 0.5;
-		this.cubesMaxSize = 1;
-		this.cubesMinDepth = 0.25;
-		this.cubesMaxDepth = 0.6;
-
-		this.rotationValue = Math.PI / 2;
-		this.rotationDestination = null;
-
-		this.rotation.y = Math.PI / 4;
 	}
 
 	setColorSky(color) {
@@ -68,54 +79,29 @@ class Monolith extends Object3D {
 		this.mesh.material.uniforms.uColorFloor.value.set(color);
 	}
 
-	manageCubes() {
-		this.kick = audioAnalyzer.getKick();
-
-		if (this.kick) {
-			if (this.counter >= this.cubesMaxCount) {
-				this.cubes.forEach((cube) => this.remove(cube));
-				this.cubes = [];
-				this.counter = 0;
-			} else {
-				this.counter++;
-				const cubeSize =
-					Math.random() * (this.cubesMaxSize - this.cubesMinSize) +
-					this.cubesMinSize;
-				const cubeDepth =
-					Math.random() * (this.cubesMaxDepth - this.cubesMinDepth) +
-					this.cubesMinDepth;
-				const cubeGeometry = new THREE.BoxGeometry(
-					cubeSize,
-					cubeSize,
-					cubeSize
-				);
-
-				const cubeMaterial = new THREE.MeshBasicMaterial({
-					color: 0xffffff,
-				});
-
-				const cubeMesh = new THREE.Mesh(cubeGeometry, cubeMaterial);
-
-				const offsetX =
-					(Math.random() > 0.5 ? 1 : -1) *
-					(params.object.monolith.size.width / 2);
-				const offsetY =
-					(Math.random() - 0.5) * params.object.monolith.size.height;
-				const offsetZ =
-					(Math.random() > 0.5 ? 1 : -1) *
-					(params.object.monolith.size.depth / 2);
-				cubeMesh.position.set(
-					this.mesh.position.x + offsetX,
-					this.mesh.position.y + offsetY,
-					this.mesh.position.z + offsetZ
-				);
-
-				this.cubes.push(cubeMesh);
-				this.add(cubeMesh);
-			}
-			// console.log(this.counter);
-		}
+	clearCubes() {
+		this.cubes.forEach((cube) => this.remove(cube));
+		this.cubes = [];
 	}
+
+	addCube(cubeData) {
+		const cubeGeometry = new THREE.BoxGeometry(
+			cubeData.size.width,
+			cubeData.size.height,
+			cubeData.size.depth
+		);
+		console.log(this.cubeMaterial);
+		const cubeMesh = new THREE.Mesh(cubeGeometry, this.cubeMaterial);
+
+		cubeMesh.position.set(
+			cubeData.position.x,
+			cubeData.position.y,
+			cubeData.position.z
+		);
+
+		this.cubes.push(cubeMesh);
+		this.add(cubeMesh);
+	};
 
 	rotatation() {
 		if (audioAnalyzer.getKick() && this.rotationDestination === null) {
@@ -135,7 +121,7 @@ class Monolith extends Object3D {
 
 	tick = (time) => {
 		if (params.object.monolith.animation) {
-			this.manageCubes();
+			// this.manageCubes();
 			this.rotatation();
 
 			this.volume = audioAnalyzer.volume;
