@@ -8,12 +8,26 @@ export const params = {
 		cubeColor: 0xf5f5f5,
 		floorColor: 0x352F31,
 		skyColor: 0x706a6c,
+		secondaryColor: [
+			0x068CFE,
+			0xF60403,
+			0xF3EA21,
+			0x0A46E5,
+			0x00E85B
+		],
 	},
 	sceneHigh: {
 		bgColor: 0xe8e3cf,
 		cubeColor: 0xef3942,
 		floorColor: 0x882f2f,
 		skyColor: 0xf4e9d8,
+		secondaryColor: [
+			0x0A46E5,
+			0x706a6c,
+			0xF6D201,
+			0x5F66A7,
+			0xF28417
+		],
 	},
 
 	camera: {
