@@ -116,7 +116,7 @@ class Monolith extends Object3D {
 			cubeData.size.height,
 			cubeData.size.depth
 		);
-		console.log(this.cubeMaterial);
+		
 		const cubeMesh = new THREE.Mesh(cubeGeometry, this.cubeMaterial[cubeData.color]);
 
 		cubeMesh.position.set(

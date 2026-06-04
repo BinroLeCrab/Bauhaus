@@ -48,6 +48,14 @@ class AudioAnalyzer {
 		return this.kick > this.kickThreshold;
 	}
 
+	getFrequency(i=-1) {
+		if ( i >= 0 && i < this.frequencyData.length) {
+			return this.frequencyData[i];
+		} else {
+			return this.frequencyData;
+		}
+	}
+
 	getFrequencyBalance() {
 		if (this.frequencyData && this.useFrequencyBalance) {
 			const bassFrequency = this.frequencyData.slice(

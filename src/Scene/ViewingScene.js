@@ -9,6 +9,7 @@ import Analyzer from "../../sounds/Analyzer.js";
 import { HalftonePass, RenderPass } from "three/examples/jsm/Addons.js";
 import audioAnalyzer from "../AudioAnalyzer.js";
 import cubeManager from "../Object/CubeManager.js";
+import bandManager from "../Object/BandManager.js";
 
 class ViewingScene extends Scene {
 	constructor() {
@@ -96,6 +97,8 @@ class ViewingScene extends Scene {
 	tick(time) {
 		this.stats.begin();
 		if (audioAnalyzer.useAudio) {
+
+			bandManager.tick();
 
 			if (audioAnalyzer.getKick()) {
 				cubeManager.onKick();

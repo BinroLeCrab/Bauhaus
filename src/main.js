@@ -6,6 +6,7 @@ import sharedRender from "./Render";
 import SceneBass from "./Scene/SceneBass";
 import SceneHigh from "./Scene/SceneHigh";
 import audioAnalyzer from "./AudioAnalyzer";
+import bandManager from "./Object/BandManager";
 
 sharedRender.init();
 sharedRender.startAnimationLoop();
@@ -172,6 +173,11 @@ f4.addBinding(audioAnalyzer, "balanceThreshold", {
 	step: 0.01,
 });
 f4.addBinding(audioAnalyzer, "kickThreshold", {
+	min: 0,
+	max: 1,
+	step: 0.01,
+});
+f4.addBinding(bandManager, "volumeThreshold", {
 	min: 0,
 	max: 1,
 	step: 0.01,

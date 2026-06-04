@@ -1,8 +1,9 @@
 import * as THREE from "three";
 import { Object3D } from "three";
+import bandManager from "./BandManager";
 
 class Background extends Object3D {
-	constructor(camera, skyColor = 0x0000ff) {
+	constructor(camera, skyColor = 0x0000ff, sceneType = 'bass') {
 		super();
 		this.camera = camera;
 		this.distance = 100; // Distance du plane devant la caméra
@@ -11,6 +12,7 @@ class Background extends Object3D {
 		this.drawOY = 0.115;
 		this.drawingWidth = 0.022;
 		this.drawingHeight = 0.022;
+		this.sceneType = sceneType;
 
 		this.shape = [];
 
@@ -23,23 +25,24 @@ class Background extends Object3D {
 		this.add(this.plane);
 
 		// this.addShape();
-
+		bandManager.registerSubscriber(this, this.sceneType);
 		this.synchronizeWithCamera();
 
 		window.addEventListener("resize", this.synchronizeWithCamera);
 	}
 
-	addShape() {
-		// Créer une forme aléatoire
-		const geometry = new THREE.PlaneGeometry(this.drawingWidth * 0.5, this.drawingHeight * 0.5);
-		const material = new THREE.MeshBasicMaterial({
-			color: 0x00ffff,
-		});
-		const shape = new THREE.Mesh(geometry, material);
-		shape.position.z = 0.1; // Placer légèrement devant le plane
-		shape.position.y = this.drawOY;
-		this.shape.push(shape);
-		this.add(shape);
+	addBand(bandMesh) {
+		
+		if (this.sceneType === 'bass') {
+			bandMesh.position.y = this.drawOY;
+			bandMesh.position.x = (Math.random() * this.drawingWidth) - this.drawingWidth / 2; // Position aléatoire sur l'axe X
+			
+			this.add(bandMesh);
+		} else if (this.sceneType === 'high') {
+			bandMesh.position.y = this.drawOY + ((Math.random() * this.drawingHeight) - this.drawingHeight / 2); // Position aléatoire sur l'axe Y
+
+			this.add(bandMesh);
+		}
 	}
 
 	synchronizeWithCamera() {
