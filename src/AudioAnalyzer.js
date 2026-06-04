@@ -6,6 +6,7 @@ class AudioAnalyzer {
 
 	init() {
 		this.useAudio = true;
+		this.useFrequencyBalance = true;
 		this.audio = new Analyzer();
 		this.volume = params.audio.frequency;
 
@@ -33,7 +34,7 @@ class AudioAnalyzer {
 	}
 
 	getFrequencyBalance() {
-		if (this.frequencyData) {
+		if (this.frequencyData && this.useFrequencyBalance) {
 			const bassFrequency = this.frequencyData.slice(
 				0,
 				params.audio.cutNumber
@@ -71,7 +72,7 @@ class AudioAnalyzer {
 					console.log("Final Number:", finalNumber.toFixed(2));
 				}
 
-				this.frequencyBalance = finalNumber;
+				this.frequencyBalance = finalNumber + 0.25;
 			}
 			if (balance == this.balanceThreshold) {
 				// console.log("Bass and High are balanced");

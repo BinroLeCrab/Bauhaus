@@ -7,9 +7,10 @@ import Monolith from "../Object/Monolith";
 import World from "../Object/World";
 
 class Scene {
-	constructor(bgColor = 0x000000, cubeColor = 0x00ff00) {
+	constructor( bgColor = 0x000000, skyColor = 0x0000ff, floorColor = 0x00ff00) {
 		this.bgColor = bgColor;
-		this.cubeColor = cubeColor;
+		this.skyColor = skyColor;
+		this.floorColor = floorColor;
 		this.width = window.innerWidth;
 		this.height = window.innerHeight;
 		this.setupScene();
@@ -59,14 +60,24 @@ class Scene {
 	}
 
 	addObject() {
-		this.world = new World(this.bgColor);
+		this.world = new World(this.skyColor, this.floorColor);
 		this.scene.add(this.world);
-		this.monolith = new Monolith(this.cubeColor);
+		this.monolith = new Monolith(this.skyColor, this.floorColor);
 		this.scene.add(this.monolith);
 	}
 
 	render() {
 		sharedRender.renderer.render(this.scene, this.camera);
+	}
+
+	setSkyColor(color) {
+		this.monolith.mesh.material.uniforms.uColorSky.value.set(color);
+		this.world.mesh.material.uniforms.uColorSky.value.set(color);
+	}
+
+	setFloorColor(color) {
+		this.monolith.mesh.material.uniforms.uColorFloor.value.set(color);
+		this.world.mesh.material.uniforms.uColorFloor.value.set(color);
 	}
 
 	tick(time) {

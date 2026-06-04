@@ -46,10 +46,17 @@ f1.addBinding(params.sceneBass, "bgColor", { view: "color" }).on(
 	}
 );
 
-f1.addBinding(params.sceneBass, "cubeColor", { view: "color" }).on(
+f1.addBinding(params.sceneBass, "floorColor", { view: "color" }).on(
 	"change",
 	() => {
-		sceneBass.cube.material.color.set(params.sceneBass.cubeColor);
+		sceneBass.setFloorColor(params.sceneBass.floorColor);
+	}
+);
+
+f1.addBinding(params.sceneBass, "skyColor", { view: "color" }).on(
+	"change",
+	() => {
+		sceneBass.setSkyColor(params.sceneBass.skyColor);
 	}
 );
 
@@ -134,6 +141,7 @@ f4.addBinding(params.audio, "highBoost", { min: 0, max: 5, step: 0.25 });
 f4.addBinding(params.audio, "bassBoost", { min: 0, max: 5, step: 0.25 });
 f4.addBinding(audioAnalyzer, "balanceThreshold", { min: 0, max: 1, step: 0.01 });
 f4.addBinding(audioAnalyzer, "useAudio");
+f4.addBinding(audioAnalyzer, "useFrequencyBalance");
 
 const f5 = tab.pages[3].addFolder({
 	title: "Halftone",

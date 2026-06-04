@@ -6,10 +6,14 @@ export const params = {
 	sceneBass: {
 		bgColor: 0xFFFFFF,
 		cubeColor: 0x068cfe,
+		floorColor: 0xFF0000,
+		skyColor: 0x0000FF,
 	},
 	sceneHigh: {
 		bgColor: 0xe8e3cf,
 		cubeColor: 0xef3942,
+		floorColor: 0x000000,
+		skyColor: 0xFFFFFF,
 	},
 
 	camera: {
