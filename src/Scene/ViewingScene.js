@@ -16,7 +16,7 @@ class ViewingScene extends Scene {
 		super(params.sceneView.bgColor, params.sceneView.cubeColor);
 
 		this.transitionCounter = 0;
-		this.transitionDuration = 8; // Durée de la transition en secondes
+		this.transitionDuration = 16; // Durée de la transition en secondes
 		this.transitionStep = 'bass'; // 'bass' ou 'high'
 	}
 
@@ -84,7 +84,7 @@ class ViewingScene extends Scene {
 	}
 
 	init() {
-		this.setupStats();
+		// this.setupStats();
 		audioAnalyzer.init();
 		this.setupPostProcessing();
 		sharedRender.addScene(this);
@@ -113,7 +113,7 @@ class ViewingScene extends Scene {
 	}
 
 	tick(time) {
-		this.stats.begin();
+		// this.stats.begin();
 		if (audioAnalyzer.useAudio) {
 
 			bandManager.tick();
@@ -129,7 +129,7 @@ class ViewingScene extends Scene {
 				params.audio.frequency;
 		}
 		this.render();
-		this.stats.end();
+		// this.stats.end();
 	}
 }
 
