@@ -14,6 +14,10 @@ import bandManager from "../Object/BandManager.js";
 class ViewingScene extends Scene {
 	constructor() {
 		super(params.sceneView.bgColor, params.sceneView.cubeColor);
+
+		this.transitionCounter = 0;
+		this.transitionDuration = 10; // Durée de la transition en secondes
+		this.transitionStep = 'bass'; // 'bass' ou 'high'
 	}
 
 	addObject() {
@@ -94,6 +98,20 @@ class ViewingScene extends Scene {
 		this.shadersMaterial.uniforms.uAspectRatio.value = this.width / this.height;
 	};
 
+	manageTransition() {
+		if (audioAnalyzer.getKickHard()) {
+			this.transitionCounter += 1;
+			console.log("Kick detected! Transition counter:", this.transitionCounter);
+
+			if (this.transitionCounter >= this.transitionDuration) {
+				this.transitionStep = this.transitionStep === 'bass' ? 'high' : 'bass';
+				this.transitionCounter = 0;
+				console.log("Transition step changed to:", this.transitionStep);
+			}
+		}
+		this.shadersMaterial.uniforms.uAudioFrequency.value = audioAnalyzer.getFrequencyBalance(this.transitionStep);
+	}
+
 	tick(time) {
 		this.stats.begin();
 		if (audioAnalyzer.useAudio) {
@@ -103,8 +121,8 @@ class ViewingScene extends Scene {
 			if (audioAnalyzer.getKick()) {
 				cubeManager.onKick();
 			}
+			this.manageTransition();
 
-			this.shadersMaterial.uniforms.uAudioFrequency.value = audioAnalyzer.getFrequencyBalance();
 			this.shadersMaterial.uniforms.uAspectRatio.value = this.width / this.height;
 		} else {
 			this.shadersMaterial.uniforms.uAudioFrequency.value =

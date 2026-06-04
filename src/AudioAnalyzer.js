@@ -6,7 +6,7 @@ class AudioAnalyzer {
 
 	init() {
 		this.useAudio = true;
-		this.useFrequencyBalance = false;
+		this.useFrequencyBalance = true;
 		this.audio = new Analyzer();
 		this.volume = params.audio.frequency;
 
@@ -17,12 +17,13 @@ class AudioAnalyzer {
 		this.balancePass = {
 			bass: {
 				min: 0,
-				max: 0.20,
+				max: 0.2,
 			},
 			high: {
-				min: 0.80,
+				min: 0.9,
 				max: 1,
 			},
+			range: 0.5
 		};
 
 		this.balanceThreshold = 0.4; // Threshold to determine if high frequencies are stronger than bass
@@ -30,6 +31,7 @@ class AudioAnalyzer {
 		this.kick = 0;
 		this.kickHard = 0;
 		this.kickThreshold = 0.7;
+		this.kickHardThreshold = 0.9;
 
 		this.audio.onAudio((a) => {
 			this.volume = a.volumeSmooth;
@@ -37,7 +39,6 @@ class AudioAnalyzer {
 			this.kick = a.kick;
 			this.kickHard = a.kickHard;
 		});
-
 	}
 
 	getKickHard() {
@@ -48,15 +49,52 @@ class AudioAnalyzer {
 		return this.kick > this.kickThreshold;
 	}
 
-	getFrequency(i=-1) {
-		if ( i >= 0 && i < this.frequencyData.length) {
+	getFrequency(i = -1) {
+		if (i >= 0 && i < this.frequencyData.length) {
 			return this.frequencyData[i];
 		} else {
 			return this.frequencyData;
 		}
 	}
 
-	getFrequencyBalance() {
+	getFrequencyBalance(type = "bass") {
+		if (this.frequencyData && this.useFrequencyBalance) {
+			const bassFrequency = this.frequencyData.slice(
+				0,
+				params.audio.cutNumber
+			);
+			const highFrequency = this.frequencyData.slice(
+				params.audio.cutNumber
+			);
+
+			const bassAverage =
+				(bassFrequency.reduce((a, b) => a + b, 0) /
+					bassFrequency.length) *
+				params.audio.bassBoost;
+			const highAverage =
+				(highFrequency.reduce((a, b) => a + b, 0) /
+					highFrequency.length) *
+				params.audio.highBoost;
+
+			// console.log("bassAverage", bassAverage, "highAverage", highAverage);
+
+			const balance = highAverage / bassAverage;
+
+			if (type === "bass") {
+				const finalNumber = balance * this.balancePass.range;
+				this.frequencyBalance = finalNumber;
+			} else if (type === "high") {
+				const finalNumber = this.balancePass.high.max - balance * this.balancePass.range;
+				this.frequencyBalance = finalNumber;
+			}
+
+			return this.frequencyBalance;
+		} else {
+			return params.audio.frequency;
+		}
+	}
+
+	getFrequencyBalanceOLD() {
 		if (this.frequencyData && this.useFrequencyBalance) {
 			const bassFrequency = this.frequencyData.slice(
 				0,
