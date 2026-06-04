@@ -31,7 +31,7 @@ class Monolith extends Object3D {
 		this.mesh = new THREE.Mesh(geometry, this.material);
 		this.add(this.mesh);
 
-		this.mesh.position.set(
+		this.position.set(
 			params.object.monolith.position.x,
 			params.object.monolith.size.height / 2 +
 				params.object.monolith.position.y,
@@ -47,7 +47,10 @@ class Monolith extends Object3D {
 		this.cubesMinSize = 0.5;
 		this.cubesMaxSize = 1;
 		this.cubesMinDepth = 0.25;
-		this.cubesMaxDepth = 0.60;
+		this.cubesMaxDepth = 0.6;
+
+		this.rotationValue = Math.PI / 2;
+		this.rotationDestination = null;
 
 		this.rotation.y = Math.PI / 4;
 	}
@@ -73,7 +76,7 @@ class Monolith extends Object3D {
 				const cubeSize =
 					Math.random() * (this.cubesMaxSize - this.cubesMinSize) +
 					this.cubesMinSize;
-					const cubeDepth =
+				const cubeDepth =
 					Math.random() * (this.cubesMaxDepth - this.cubesMinDepth) +
 					this.cubesMinDepth;
 				const cubeGeometry = new THREE.BoxGeometry(
@@ -88,9 +91,14 @@ class Monolith extends Object3D {
 
 				const cubeMesh = new THREE.Mesh(cubeGeometry, cubeMaterial);
 
-				const offsetX = (Math.random() > 0.5 ? 1 : -1) * (params.object.monolith.size.width / 2);
-				const offsetY = (Math.random() - 0.5) * params.object.monolith.size.height;
-				const offsetZ = (Math.random() > 0.5 ? 1 : -1) * (params.object.monolith.size.depth / 2);
+				const offsetX =
+					(Math.random() > 0.5 ? 1 : -1) *
+					(params.object.monolith.size.width / 2);
+				const offsetY =
+					(Math.random() - 0.5) * params.object.monolith.size.height;
+				const offsetZ =
+					(Math.random() > 0.5 ? 1 : -1) *
+					(params.object.monolith.size.depth / 2);
 				cubeMesh.position.set(
 					this.mesh.position.x + offsetX,
 					this.mesh.position.y + offsetY,
@@ -104,9 +112,26 @@ class Monolith extends Object3D {
 		}
 	}
 
+	rotatation() {
+		if (audioAnalyzer.getKick() && this.rotationDestination === null) {
+			this.rotationDestination = this.rotation.y + this.rotationValue;
+		} else if (this.rotationDestination !== null) {
+			const rotationDifference =
+				this.rotationDestination - this.rotation.y;
+
+			if (Math.abs(rotationDifference) < 0.01) {
+				this.rotation.y = this.rotationDestination;
+				this.rotationDestination = null;
+			} else {
+				this.rotation.y += rotationDifference * 0.1;
+			}
+		}
+	}
+
 	tick = (time) => {
 		if (params.object.monolith.animation) {
 			this.manageCubes();
+			this.rotatation();
 
 			this.volume = audioAnalyzer.volume;
 			const scale = Math.max(
