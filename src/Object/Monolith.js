@@ -13,7 +13,8 @@ class Monolith extends Object3D {
 			params.object.monolith.size.height,
 			params.object.monolith.size.depth
 		);
-		this.material = new THREE.ShaderMaterial({
+
+		this.shaderMaterial = new THREE.ShaderMaterial({
 			uniforms: THREE.UniformsUtils.merge([
 				THREE.UniformsLib.lights, // ← Ajouter ça
 				{
@@ -28,7 +29,11 @@ class Monolith extends Object3D {
 			fragmentShader: fragmentShader,
 			vertexShader: vertexShader,
 		});
-		this.mesh = new THREE.Mesh(geometry, this.material);
+
+		this.cubeMaterial = new THREE.MeshPhongMaterial({
+			color: 0xffffff,
+		});
+		this.mesh = new THREE.Mesh(geometry, this.shaderMaterial);
 		this.add(this.mesh);
 
 		this.position.set(
@@ -108,7 +113,7 @@ class Monolith extends Object3D {
 				this.cubes.push(cubeMesh);
 				this.add(cubeMesh);
 			}
-			console.log(this.counter);
+			// console.log(this.counter);
 		}
 	}
 

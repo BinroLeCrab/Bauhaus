@@ -5,29 +5,30 @@ export const params = {
 	},
 	sceneBass: {
 		bgColor: 0xFFFFFF,
-		cubeColor: 0x068cfe,
-		floorColor: 0xFF0000,
-		skyColor: 0x0000FF,
+		cubeColor: 0xf5f5f5,
+		floorColor: 0x352F31,
+		skyColor: 0x706a6c,
 	},
 	sceneHigh: {
 		bgColor: 0xe8e3cf,
 		cubeColor: 0xef3942,
-		floorColor: 0x000000,
-		skyColor: 0xFFFFFF,
+		floorColor: 0x882f2f,
+		skyColor: 0xf4e9d8,
 	},
 
 	camera: {
 		fov: 90,
 		near: 0.1,
 		far: 1000,
+		zoom: 60,
 		position: {
 			x: 0,
-			y: 3,
+			y: -2,
 			z: 5,
 		},
 		lookAt: {
 			x: 0,
-			y: 3,
+			y: 2,
 			z: 0,
 		},
 	},
@@ -62,7 +63,7 @@ export const params = {
 				height: 4,
 				depth: 1.75,
 			},
-			scaleVolume: 0.15,
+			scaleVolume: 0.2,
 		}
 	}
 };

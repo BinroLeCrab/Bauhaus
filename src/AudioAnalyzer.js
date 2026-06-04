@@ -6,7 +6,7 @@ class AudioAnalyzer {
 
 	init() {
 		this.useAudio = true;
-		this.useFrequencyBalance = true;
+		this.useFrequencyBalance = false;
 		this.audio = new Analyzer();
 		this.volume = params.audio.frequency;
 

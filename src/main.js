@@ -102,6 +102,13 @@ const f3 = tab.pages[0].addFolder({
 	title: "Camera",
 });
 
+f3.addBinding(params.camera, "zoom", { min: 0.1, max: 100 }).on("change", () => {
+	sceneBass.camera.zoom = params.camera.zoom;
+	sceneBass.camera.updateProjectionMatrix();
+	sceneHigh.camera.zoom = params.camera.zoom;
+	sceneHigh.camera.updateProjectionMatrix();
+});
+
 f3.addBinding(params.camera, "fov", { min: 1, max: 180 }).on("change", () => {
 	sceneBass.camera.fov = params.camera.fov;
 	sceneBass.camera.updateProjectionMatrix();
