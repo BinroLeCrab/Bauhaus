@@ -28,7 +28,7 @@ class Background extends Object3D {
 		bandManager.registerSubscriber(this, this.sceneType);
 		this.synchronizeWithCamera();
 
-		window.addEventListener("resize", this.synchronizeWithCamera);
+		// window.addEventListener("resize", this.synchronizeWithCamera);
 	}
 
 	addBand(bandMesh) {
@@ -68,12 +68,12 @@ class Background extends Object3D {
 		this.lookAt(this.camera.position);
 	}
 
-	// onResize = () => {
-	// 	console.log(this.camera);
-	// 	this.width = window.innerWidth / this.camera.zoom;
-	// 	this.height = window.innerHeight / this.camera.zoom;
-	// 	this.scale.set(this.width, this.height, 1);
-	// }
+	onResize() {
+		console.log(this.camera);
+		this.width = window.innerWidth / this.camera.zoom;
+		this.height = window.innerHeight / this.camera.zoom;
+		this.scale.set(this.width, this.height, 1);
+	}
 
 	setSkyColor(color) {
 		this.plane.material.color.set(color);
