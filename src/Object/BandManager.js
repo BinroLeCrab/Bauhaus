@@ -7,8 +7,8 @@ class BandManager {
 		this.bands = [];
 		this.setupBands();
 		this.volumeThreshold = 0.5; // Seuil de volume pour déclencher l'affichage d'une bande
-        this.drawingWidth = 0.022;
-		this.drawingHeight = 0.022;
+        this.drawingWidth =  1;
+		this.drawingHeight = 1;
         this.maxWidth = 0.1;
         this.minWidth = 0.02;
         this.geometry = new THREE.PlaneGeometry(1, 1);

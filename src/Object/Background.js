@@ -9,9 +9,9 @@ class Background extends Object3D {
 		this.distance = 100; // Distance du plane devant la caméra
 		this.width = 1;
 		this.height = 1;
-		this.drawOY = 0.115;
-		this.drawingWidth = 0.022;
-		this.drawingHeight = 0.022;
+		this.drawOY = 0;
+		this.drawingWidth =  1;
+		this.drawingHeight = 1;
 		this.sceneType = sceneType;
 
 		this.shape = [];
@@ -47,11 +47,16 @@ class Background extends Object3D {
 
 	synchronizeWithCamera() {
 		// Synchroniser position avec caméra
-		this.position.copy(this.camera.position);
-		this.position.z -= this.distance;
+		// this.position.copy(this.camera.position);
+		// this.position.z -= this.distance;
+		this.position.set(
+			0,
+			5.2,
+			-4
+		)
 		// Adapter la taille du plane à la vue orthographic
-		this.width = this.camera.right - this.camera.left;
-		this.height = this.camera.top - this.camera.bottom;
+		this.width = (this.camera.right - this.camera.left) / this.camera.zoom;
+		this.height = (this.camera.top - this.camera.bottom) / this.camera.zoom;
 		this.scale.set(this.width, this.height, 1);
 		// S'assurer que le plane regarde la caméra
 		this.lookAt(this.camera.position);
