@@ -101,12 +101,12 @@ class ViewingScene extends Scene {
 	manageTransition() {
 		if (audioAnalyzer.getKickHard()) {
 			this.transitionCounter += 1;
-			console.log("Kick detected! Transition counter:", this.transitionCounter);
+			// console.log("Kick detected! Transition counter:", this.transitionCounter);
 
 			if (this.transitionCounter >= this.transitionDuration) {
 				this.transitionStep = this.transitionStep === 'bass' ? 'high' : 'bass';
 				this.transitionCounter = 0;
-				console.log("Transition step changed to:", this.transitionStep);
+				// console.log("Transition step changed to:", this.transitionStep);
 			}
 		}
 		this.shadersMaterial.uniforms.uAudioFrequency.value = audioAnalyzer.getFrequencyBalance(this.transitionStep);

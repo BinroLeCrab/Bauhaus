@@ -130,7 +130,7 @@ class AudioAnalyzer {
 						(this.balancePass.high.max - this.balancePass.high.min);
 
 				if (finalNumber < this.balancePass.high.min) {
-					console.log("Final Number:", finalNumber.toFixed(2));
+					// console.log("Final Number:", finalNumber.toFixed(2));
 				}
 
 				this.frequencyBalance = finalNumber + 0.25;
