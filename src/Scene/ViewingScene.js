@@ -90,11 +90,8 @@ class ViewingScene extends Scene {
 		sharedRender.addScene(this);
 	}
 
-	onResize = () => {
-		this.width = window.innerWidth;
-		this.height = window.innerHeight;
-		this.camera.aspect = this.width / this.height;
-		this.camera.updateProjectionMatrix();
+	onResize() {
+		super.onResize();
 		this.shadersMaterial.uniforms.uAspectRatio.value = this.width / this.height;
 	};
 

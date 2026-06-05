@@ -23,6 +23,13 @@ viewingScene.init();
 // const scene = new Scene(params.sceneView.bgColor, params.sceneView.cubeColor);
 // scene.init();
 
+window.addEventListener("resize", () => {
+	sceneBass.onResize();
+	sceneHigh.onResize();
+	viewingScene.onResize();
+	sharedRender.onResize();
+});
+
 // --
 
 let isTweakpaneOpen = false;

@@ -28,7 +28,7 @@ class Scene {
 		this.setupCamera();
 		this.addObject();
 		this.setupControls();
-		window.addEventListener("resize", this.onResize);
+		// window.addEventListener("resize", this.onResize);
 	}
 
 	init() {
@@ -110,7 +110,8 @@ class Scene {
 		this.render();
 	}
 
-	onResize = () => {
+	onResize() {
+		console.log("Resizing scene...");
 		this.width = window.innerWidth;
 		this.height = window.innerHeight;
 		this.camera.aspect = this.width / this.height;
