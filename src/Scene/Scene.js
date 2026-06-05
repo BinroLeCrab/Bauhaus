@@ -69,10 +69,10 @@ class Scene {
 	}
 
 	setupControls() {
-		this.controls = new OrbitControls(
-			this.camera,
-			sharedRender.renderer.domElement
-		);
+		// this.controls = new OrbitControls(
+		// 	this.camera,
+		// 	sharedRender.renderer.domElement
+		// );
 
 		this.camera.lookAt(
 			params.camera.lookAt.x,

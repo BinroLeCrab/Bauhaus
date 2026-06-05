@@ -6,7 +6,7 @@ class Background extends Object3D {
 	constructor(camera, skyColor = 0x0000ff, sceneType = 'bass') {
 		super();
 		this.camera = camera;
-		this.distance = 100; // Distance du plane devant la caméra
+		this.distance = 10; // Distance du plane devant la caméra
 		this.width = 1;
 		this.height = 1;
 		this.drawOY = 0;
@@ -46,19 +46,23 @@ class Background extends Object3D {
 	}
 
 	synchronizeWithCamera() {
-		// Synchroniser position avec caméra
-		// this.position.copy(this.camera.position);
-		// this.position.z -= this.distance;
+		//! Synchroniser position avec caméra
+		// const cameraViewDirection = new THREE.Vector3();
+		// this.camera.getWorldDirection(cameraViewDirection);
+		// cameraViewDirection.multiplyScalar(this.distance);
+		// this.position.copy(this.camera.position).add(cameraViewDirection);
 		this.position.set(
 			0,
 			5.2,
 			-4
-		)
-		// Adapter la taille du plane à la vue orthographic
+		);
+		
+		//! Adapter la taille du plane à la vue orthographic
 		this.width = (this.camera.right - this.camera.left) / this.camera.zoom;
 		this.height = (this.camera.top - this.camera.bottom) / this.camera.zoom;
 		this.scale.set(this.width, this.height, 1);
-		// S'assurer que le plane regarde la caméra
+
+		//! S'assurer que le plane regarde la caméra
 		this.lookAt(this.camera.position);
 	}
 
