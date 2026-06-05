@@ -32,7 +32,7 @@ class Scene {
 	}
 
 	init() {
-		console.log("Initializing scene...");
+		// console.log("Initializing scene...");
 		sharedRender.addScene(this);
 	}
 

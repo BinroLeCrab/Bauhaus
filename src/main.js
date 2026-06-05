@@ -335,9 +335,9 @@ function addTweakpane() {
 }
 
 window.addEventListener("keydown", (ev) => {
-	if (ev.key === "d") {
+	if (ev.key === "t") {
 		addTweakpane();
 	}
 });
 
-addTweakpane();
+// addTweakpane();
