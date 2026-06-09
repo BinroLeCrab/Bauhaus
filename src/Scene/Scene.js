@@ -28,11 +28,11 @@ class Scene {
 		this.setupCamera();
 		this.addObject();
 		this.setupControls();
-		window.addEventListener("resize", this.onResize);
+		// window.addEventListener("resize", this.onResize);
 	}
 
 	init() {
-		console.log("Initializing scene...");
+		// console.log("Initializing scene...");
 		sharedRender.addScene(this);
 	}
 
@@ -86,9 +86,17 @@ class Scene {
 	addObject() {
 		// this.world = new World(this.skyColor, this.floorColor);
 		// this.scene.add(this.world);
-		this.background = new Background(this.camera, this.skyColor, this.sceneType);
+		this.background = new Background(
+			this.camera,
+			this.skyColor,
+			this.sceneType
+		);
 		this.scene.add(this.background);
-		this.monolith = new Monolith(this.cubeColor, this.floorColor, this.secondaryColor);
+		this.monolith = new Monolith(
+			this.cubeColor,
+			this.floorColor,
+			this.secondaryColor
+		);
 		this.scene.add(this.monolith);
 	}
 
@@ -110,12 +118,42 @@ class Scene {
 		this.render();
 	}
 
-	onResize = () => {
+	onResize() {
+		console.log("Resizing scene...");
 		this.width = window.innerWidth;
 		this.height = window.innerHeight;
-		this.camera.aspect = this.width / this.height;
+
+		// this.camera.left = this.width / -2;
+		// this.camera.right = this.width / 2;
+		// this.camera.top = this.height / 2;
+		// this.camera.bottom = this.height / -2;
+
+		this.camera = new THREE.OrthographicCamera(
+			this.width / -2,
+			this.width / 2,
+			this.height / 2,
+			this.height / -2,
+			params.camera.near,
+			params.camera.far
+		);
+
+		this.camera.zoom = params.camera.zoom;
 		this.camera.updateProjectionMatrix();
-	};
+
+		this.camera.position.set(
+			params.camera.position.x,
+			params.camera.position.y,
+			params.camera.position.z
+		);
+
+		this.camera.lookAt(
+			params.camera.lookAt.x,
+			params.camera.lookAt.y,
+			params.camera.lookAt.z
+		);
+
+		this.camera.updateProjectionMatrix();
+	}
 }
 
 export default Scene;

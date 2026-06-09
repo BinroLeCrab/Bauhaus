@@ -11,7 +11,7 @@ class Render {
 		this.setupComposer();
 		this.setupRenderTarget();
 		this.sceneToRender = [];
-		window.addEventListener("resize", this.onResize);
+		// window.addEventListener("resize", this.onResize);
 	}
 
 	setupRenderer() {
@@ -48,7 +48,7 @@ class Render {
 		});
 	}
 
-	onResize = () => {
+	onResize() {
 		this.width = window.innerWidth;
 		this.height = window.innerHeight;
 		this.renderer.setSize(this.width, this.height);

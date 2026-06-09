@@ -19,6 +19,11 @@ class SceneHigh extends Scene {
 		sharedRender.renderer.setRenderTarget(null);
 	}
 
+	onResize() {
+		super.onResize();
+		this.background.onResize();
+	}
+
 	tick(time) {
 		super.tick(time);
 	};

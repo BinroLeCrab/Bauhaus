@@ -28,7 +28,7 @@ class Background extends Object3D {
 		bandManager.registerSubscriber(this, this.sceneType);
 		this.synchronizeWithCamera();
 
-		window.addEventListener("resize", this.synchronizeWithCamera);
+		// window.addEventListener("resize", this.synchronizeWithCamera);
 	}
 
 	addBand(bandMesh) {
@@ -46,17 +46,19 @@ class Background extends Object3D {
 	}
 
 	synchronizeWithCamera() {
+		if (!this.camera) return;
+		console.log("Synchronizing background with camera...");
 		//! Synchroniser position avec caméra
 		// const cameraViewDirection = new THREE.Vector3();
 		// this.camera.getWorldDirection(cameraViewDirection);
 		// cameraViewDirection.multiplyScalar(this.distance);
 		// this.position.copy(this.camera.position).add(cameraViewDirection);
-		this.position.set(
+		this.position?.set(
 			0,
 			5.2,
 			-4
 		);
-		
+
 		//! Adapter la taille du plane à la vue orthographic
 		this.width = (this.camera.right - this.camera.left) / this.camera.zoom;
 		this.height = (this.camera.top - this.camera.bottom) / this.camera.zoom;
@@ -64,6 +66,13 @@ class Background extends Object3D {
 
 		//! S'assurer que le plane regarde la caméra
 		this.lookAt(this.camera.position);
+	}
+
+	onResize() {
+		console.log(this.camera);
+		this.width = window.innerWidth / this.camera.zoom;
+		this.height = window.innerHeight / this.camera.zoom;
+		this.scale.set(this.width, this.height, 1);
 	}
 
 	setSkyColor(color) {
