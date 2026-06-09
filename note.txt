@@ -39,3 +39,14 @@ pour les formes, canva ou plane en 3D (regarder pour les mixblendmode en post pr
 
 -- 
 pour les texture, calculer à partir de la position en y pour que ce soit plus propre
+
+--------------------
+
+Modification à faire suite au retours
+- trasnformer pour utiliser la classe et s'abonner aux appel du template
+- ajouter plus de dynamisme
+- faire la transition plus smooth
+- réagir l'apparition des bloc selon des regles (pas obligé de faire de l'algorythmique)
+- régler le soucis de la détection des kick et kick hard
+- ajouter des changement de camera d'angle etc...
+- faire varié la compisition
